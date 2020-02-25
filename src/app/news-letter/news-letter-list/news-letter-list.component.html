@@ -1,0 +1,92 @@
+<div id="products" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+      <!-- APP TITLE -->
+      <div class="logo my-12 m-sm-0" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">alternate_email</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">News Letter</span>
+      </div>
+      <!-- / APP TITLE -->
+
+      <!-- SEARCH -->
+      <div class="search-input-wrapper mx-12 m-md-0" fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+        <label for="search" class="mr-8">
+          <mat-icon class="secondary-text">search</mat-icon>
+        </label>
+        <mat-form-field floatPlaceholder="never" fxFlex="1 0 auto">
+          <input id="search" matInput  placeholder="Search">
+        </mat-form-field>
+      </div>
+      <!-- / SEARCH -->
+      <button mat-raised-button (click)="newsletterSelected(null)" class="add-product-button mat-white-bg my-12 mt-sm-0">
+        <span>ADD NEW</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+ 
+     
+            <div fusePerfectScrollbar class="scolleDiv" detect-scroll (onScroll)="handleScroll($event)" [bottomOffset]="50" [topOffset]="100" >
+
+            <mat-table class="products-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}"
+              >
+              <!-- Name Column -->
+              <ng-container cdkColumnDef="name">
+                <mat-header-cell *cdkHeaderCellDef >Name</mat-header-cell>
+                <mat-cell *cdkCellDef="let newsLetter">
+                  <p class="text-truncate">{{newsLetter.name}}</p>
+                </mat-cell>
+              </ng-container>
+              <ng-container cdkColumnDef="email">
+                  <mat-header-cell *cdkHeaderCellDef >Email</mat-header-cell>
+                  <mat-cell *cdkCellDef="let newsLetter">
+                    <p class="text-truncate">{{newsLetter.email}}</p>
+                  </mat-cell>
+                </ng-container>
+                  <ng-container cdkColumnDef="createDate">
+                      <mat-header-cell *cdkHeaderCellDef   fxHide fxShow.gt-xs>Date</mat-header-cell>
+                      <mat-cell *cdkCellDef="let newsLetter"  fxHide fxShow.gt-xs>
+                          <p>{{newsLetter.createDate | date : 'dd/MM/yyyy'}}</p>
+                        </mat-cell>
+                    </ng-container>
+              <!-- Active Column -->
+              <ng-container cdkColumnDef="options">
+                <mat-header-cell *cdkHeaderCellDef >
+                  <mat-icon class="mat-18">equalizer</mat-icon>
+                </mat-header-cell>
+                <mat-cell *cdkCellDef="let newsLetter">
+                  <mat-icon (click)="newsletterSelected(newsLetter)" matTooltip="Edit News Letter"  class="accent-500-fg">edit</mat-icon>
+                  <mat-icon (click)="deleteNewsletter(newsLetter)" matTooltip="Delete news letter"  class="warn-500-fg">delete</mat-icon>
+                </mat-cell>
+              </ng-container>
+      
+              <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      
+              <mat-row *cdkRowDef="let product; columns: displayedColumns;" class="product" matRipple >
+              </mat-row>
+      
+            </mat-table>
+      
+            </div> 
+       
+      <!--
+        <mat-card-footer *ngIf="isLoadingResults " class="panel-footer">	
+        <mat-progress-bar mode="buffer" color="accent" ></mat-progress-bar>
+     </mat-card-footer>	
+      -->
+  </div>
+  </div>
+</div>
+

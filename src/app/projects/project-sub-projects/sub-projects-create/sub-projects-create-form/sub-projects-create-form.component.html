@@ -1,0 +1,51 @@
+<!-- CONTENT -->
+<div class="content form-wrapper" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" *blockUI=" 'SubProjectsCreate' ">
+
+  <form novalidate [formGroup]="SubProjectsForm" fxFlex="100" fxLayout="" fxLayoutAlign="start start" fxLayoutGap="10px">
+
+    <div class="form-wrapper" fxFlex="100">
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayoutGap="10px" class="mt-4">
+
+          <mat-form-field fxFlex class="w-100-p">
+
+              <mat-select placeholder="Project" formControlName="projectId" name="Project">
+                <mat-option class="red-500-fg" (click)="SubProjectsForm.get('projectId').reset()">Clear Selection</mat-option>
+                <mat-option *ngFor="let project of projects" [value]="project.id">
+                  {{project.name}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <input matInput placeholder="SubProject Name" formControlName="name">
+          <mat-error *ngIf="SubProjectsForm.get('name').hasError('required')">
+            Name is required!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <input matInput placeholder="Details" formControlName="details">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayoutWrap fxLayoutGap="10px">
+
+        <mat-form-field fxFlex>
+          <input matInput [matDatepicker]="startDatePicker" placeholder="Start Date" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <input matInput [matDatepicker]="completeDatePicker" placeholder="Complete Date" formControlName="completeDate">
+          <mat-datepicker-toggle matSuffix [for]="completeDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #completeDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+</div>
+<!-- / CONTENT -->

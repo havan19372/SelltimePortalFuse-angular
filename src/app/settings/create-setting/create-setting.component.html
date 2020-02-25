@@ -1,0 +1,58 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">New Setting</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="settingForm" >
+
+      <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+
+
+        <mat-form-field fxFlex class="w-100-p">
+
+          <mat-select    placeholder="Feature*" formControlName="featureId" >
+            <mat-option *ngFor="let tab of tablist" [value]="tab.id" >
+              {{tab.name}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field   fxFlex class="w-100-p">
+
+            <mat-select  placeholder="Type*"  formControlName="typeId">
+              <mat-option *ngFor="let type of settingType" [value]="type.value">
+                {{type.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field fxFlex class="w-100-p">
+          <input matInput  formControlName="key"   placeholder="Key*">
+        </mat-form-field>
+
+      </div>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="end center">
+
+    <button *ngIf="action ==='edit'" mat-button class="mat-icon-button" (click)="dialogRef.close(['delete',settingForm])" aria-label="Delete"
+      matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+    <button mat-raised-button (click)="dialogRef.close(settingForm)" class="save-button mat-accent" [disabled]="settingForm.invalid"
+      aria-label="SAVE">
+      SAVE
+    </button>
+
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="page-layout simple left-sidenav ">
+  <!-- HEADER -->
+  <div class="header mat-accent-bg p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+    <!-- APP TITLE -->
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <div class="logo" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">slideshow</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Gallery</span>
+
+      </div>
+
+    </div>
+    <!-- / APP TITLE -->
+
+    <!-- SEARCH -->
+    <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+      <label for="search" class="mr-8">
+        <mat-icon>search</mat-icon>
+      </label>
+      <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+        <input matInput id="search" placeholder="Search for anything">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="content p-24">
+
+    <div fxLayout="column" fxLayoutAlign="center">
+      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="!files">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+      <div *ngIf="files" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap>
+        <div class="file-card" *ngFor="let file of files" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33">
+          <div class="fuse-card" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" >
+            <img class="myImg" src="img_lights.jpg" [src]="fileUrl+file.url" (click)="showImage(fileUrl+file.url)">
+            <div class="px-16 py-4" fxLayout="row wrap" fxLayoutAlign="center center">
+              <button mat-icon-button color="danger" (click)="DeleteFile(file)" aria-label="Delete" matTooltip="Delete Image">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<input hidden type="file" (change)="onChange($event)" multiple #fileInput/>
+<button mat-fab class="mat-accent-bg" id="add-File-button" matTooltip="New Image" (click)="fileInput.click()" aria-label="add Image"
+  *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+  <mat-icon>add</mat-icon>
+</button>
+
+<div id="myModal" class="modal" (click)="CloseModal()">
+  <span class="close">×</span>
+  <img class="modal-content" [src]="modalImageUrl" >
+  <div id="caption"></div>
+</div>

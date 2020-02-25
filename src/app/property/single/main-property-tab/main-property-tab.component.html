@@ -1,0 +1,142 @@
+<form name="productPropertyTabForm" [formGroup]="productPropertyForm" class="product w-100-p" fxLayout="column" fxFlex>
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+
+    <mat-form-field fxFlex class="w-100-p">
+
+      <mat-select name="typeId" formControlName="typeId" placeholder="Type" >
+        <mat-option *ngFor="let type of productTypes" [value]="type.value">
+          {{type.text}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field fxFlex class="w-100-p">
+
+      <mat-select name="statusId" formControlName="statusId" placeholder="Status" >
+        <mat-option *ngFor="let status of productStatuses" [value]="status.value">
+          {{status.text}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+
+    <mat-form-field fxFlex class="w-100-p">
+
+      <mat-select name="projectId" formControlName="projectId" placeholder="Project" >
+        <mat-option *ngFor="let proj of projectsListDrp" [value]="proj.value">
+          {{proj.text}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="10px">
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Property Name (Title)" formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px" >
+    <mat-form-field fxFlex class="w-100-p">
+      <mat-select placeholder="Group" formControlName="groupId" name="Group">
+        <mat-option class="red-500-fg" (click)="productPropertyForm.get('groupId').reset()">Clear Selection</mat-option>
+        <mat-option *ngFor="let group of groups" [value]="group.value">
+          {{group.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex class="w-100-p">
+
+      <mat-select placeholder="SubGroup" formControlName="subGroupId" name="SubGroup">
+        <mat-option class="red-500-fg" (click)="productPropertyForm.get('subGroupId').reset()">Clear Selection</mat-option>
+        <mat-option *ngFor="let subGroup of subGroups" [value]="subGroup.value">
+          {{subGroup.text}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px" >
+
+    <mat-form-field fxFlex class="w-100-p" >
+      <input matInput name="bedrooms" formControlName="bedrooms" placeholder="Beds" type="number" >
+    </mat-form-field>
+
+    <mat-form-field fxFlex class="w-100-p" >
+      <input matInput name="Bathrooms" formControlName="bathrooms" placeholder="Baths" type="number" >
+    </mat-form-field>
+
+    <mat-form-field fxFlex class="w-100-p" >
+      <input matInput name="carSpaces" formControlName="carSpaces" placeholder="Cars" type="number">
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+    <mat-form-field fxFlex="100%" class="w-100-p">
+      <textarea matInput name="description" formControlName="description" placeholder="Property Description" rows="2"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+    <mat-form-field fxFlex="33%" class="w-100-p" >
+      <input matInput name="houseSqMeter" formControlName="houseSqMeter" placeholder="Building Sq Meter" type="number" >
+    </mat-form-field>
+
+
+    <mat-form-field fxFlex="33%" class="w-100-p" >
+      <input matInput name="landSqMeter" formControlName="landSqMeter" placeholder="Land Sq Meter" type="number" >
+    </mat-form-field>
+
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayoutWrap fxLayoutGap="10px">
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Address " #autocomplete1 formControlName="address">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Address 2" #autocomplete2 formControlName="address2">
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="20%">
+      <input matInput placeholder="Country" formControlName="country">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="20%">
+      <input matInput placeholder="State" formControlName="state">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="20%">
+      <input matInput placeholder="Suburb" formControlName="suburb">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="20%">
+      <input matInput placeholder="Postal Code" formControlName="postcode">
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxLayoutWrap fxLayoutGap="10px">
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Longitude " #autocomplete1 formControlName="longitude">
+    </mat-form-field>
+
+    <mat-form-field fxFlex>
+      <input matInput placeholder="Latitude" #autocomplete2 formControlName="latitude">
+    </mat-form-field>
+
+
+
+    <mat-slide-toggle fxFlex  color="accent" formControlName="showOnWebsite">
+      Show on website
+    </mat-slide-toggle>
+
+  </div>
+</form>

@@ -1,0 +1,405 @@
+<div id="order" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg mat-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header white-fg"
+             fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-16" [routerLink]="'/shoppingCarte/list'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2">
+                        Order {{shoppingCarteOrder.cartId}}
+                    </div>
+                    <div class="subtitle secondary-text">
+                        <span>from</span>
+                        <span>{{shoppingCarteOrder.contact.firstName}} {{shoppingCarteOrder.contact.lastName}}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+         <div>
+            <button mat-raised-button  class="my-12 mt-sm-0 mat-white-bg" (click)="printCartDetail()" >
+                <mat-icon>print</mat-icon>   &nbsp;
+                <span>Print</span>
+            </button>
+            &nbsp;   &nbsp;
+            <button mat-raised-button  class="   my-12 mt-sm-0 mat-white-bg" (click)="createPdf()" >
+                <mat-icon>cloud_download</mat-icon> &nbsp;
+                <span>PDF</span>
+            </button>
+            &nbsp;
+            &nbsp;
+            <button mat-raised-button [routerLink]="'/shoppingCarte/list'" class="  mat-white-bg my-12 mt-sm-0">
+              <mat-icon>shopping_cart</mat-icon>&nbsp;
+              <span>Orders</span>
+            </button>
+
+         </div>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card mat-white-bg">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <mat-tab-group>
+
+                    <mat-tab label="Order Details" >
+
+                        <div class="order-details tab-content p-24" fusePerfectScrollbar>
+
+                            <div class="section pb-48">
+
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
+                                    <div class="h2 secondary-text">Customer</div>
+                                </div>
+
+                                <div class="customer">
+                                    <table class="simple">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Telephone</th>
+                                                <th>Mobile</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div fxLayout="row" fxLayoutAlign="start center">
+                                                        <span class="name text-truncate">{{shoppingCarteOrder.contact.firstName}} {{shoppingCarteOrder.contact.lastName}}</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="email text-truncate">{{shoppingCarteOrder.contact.email}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="phone text-truncate">{{shoppingCarteOrder.contact.tel}}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="company text-truncate">{{shoppingCarteOrder.contact.mobile}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <mat-tab-group class="addresses">
+
+                                    <mat-tab label="Shipping Address">
+                                        <div fxFlex fxLayout="column">
+                                            <div class="address h4 py-24">
+                                                {{shoppingCarteOrder.address?.number}}
+                                                {{shoppingCarteOrder.address?.address}}
+                                                {{shoppingCarteOrder.address?.address2}}
+                                                {{shoppingCarteOrder.address?.state}}
+                                                {{shoppingCarteOrder.address?.suburb}}
+                                            </div>
+                                            <agm-map class="w-100-p h-400" [zoom]="15"
+                                                     [latitude]="shoppingCarteOrder.address.latitude"
+                                                     [longitude]="shoppingCarteOrder.address.longitude">
+                                                <agm-marker [latitude]="shoppingCarteOrder.address.latitude"
+                                                            [longitude]="shoppingCarteOrder.address.longitude">
+                                                </agm-marker>
+                                            </agm-map>
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+
+                            <div class="section pb-48">
+
+                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="m-0 mr-16 secondary-text">access_time</mat-icon>
+                                    <div class="h2 secondary-text">Order Status</div>
+                                </div>
+
+                                <table class="simple"  #printDiv>
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Updated On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr *ngFor="let status of shoppingCarteOrder.history">
+                                            <td>
+                                                <span class="status h6 p-4">
+                                                    {{status.statusText}}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    {{status.date | date}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <form class="update-status p-24"
+                                      (ngSubmit)="updateStatus()"
+                                      [formGroup]="statusForm"
+                                      fxLayout="row" fxLayoutAlign="start center">
+
+                                    <mat-form-field class="mr-16" fxFlex>
+                                        <mat-select formControlName="newStatus"
+                                                    placeholder="Select a status" required>
+                                            <mat-option *ngFor="let status of orderStatuses"
+                                                        [value]="status.id">
+                                                {{status.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                    <button mat-raised-button class="mat-accent"
+                                            [disabled]="statusForm.invalid">
+                                        Update Status
+                                    </button>
+                                </form>
+
+                            </div>
+
+
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab label="Products & Registration">
+
+                        <div class="products tab-content p-24" fusePerfectScrollbar>
+                                <div class="section pb-48">
+
+                                        <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                                <mat-icon class="m-0 mr-16 secondary-text">shopping_basket</mat-icon>
+                                                <div class="h2 secondary-text">Products</div>
+                                            </div>
+                                <table class="simple">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="product-row"
+                                            *ngFor="let product of shoppingCarteOrder.products"
+                                            [routerLink]="'/products/'+product.productId+'/true'">
+                                            <td class="w-64">
+                                                {{product.productId}}
+                                            </td>
+                                            <td>
+                                                {{product.productTitle}}
+                                            </td>
+                                            <td>
+                                                    {{product.unitPrice | currency:'USD':'symbol'}}
+
+                                            </td>
+                                            <td>
+                                                {{product.count}}
+                                            </td>
+                                            <td>
+                                                {{product.unitPrice * product.count | currency:'USD':'symbol'}}
+                                             </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                                    </div>
+                                    <div class="section pb-48" *ngIf="shoppingCarteOrder.registrations.length > 0">
+                                    <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                                            <mat-icon class="m-0 mr-16 secondary-text">event</mat-icon>
+                                            <div class="h2 secondary-text">Registration</div>
+                                        </div>
+
+                                        <table class="simple">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course Name</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let shipping of shoppingCarteOrder.registrations">
+                                                    <td class="tracking-code">
+                                                      Is name will come from event?
+                                                     </td>
+
+                                                    <td>
+                                                        {{shipping.firstName}}
+                                                        {{shipping.lastName}}
+                                                    </td>
+                                                    <td>
+                                                            {{shipping.emailAddress}}
+                                                        </td>
+                                                    <td>
+                                                        {{shipping.createDate}}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab label="Invoice">
+
+                        <div class="invoice tab-content p-24" fusePerfectScrollbar>
+
+                            <div id="invoice" class="compact page-layout blank" fxLayout="row" fusePerfectScrollbar>
+
+                                <div class="invoice-container">
+
+                                    <!-- INVOICE -->
+                                    <div class="card">
+
+                                        <div class="header">
+                                            <div class="invoice-date">{{order.date}}</div>
+
+                                            <div fxLayout="row" fxLayoutAlign="space-between stretch">
+                                                <div class="client">
+                                                    <div class="invoice-number" fxLayout="row" fxLayoutAlign="start center">
+                                                        <span class="title">INVOICE</span>
+                                                        <span class="number">{{shoppingCarteOrder.cartId}}</span>
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <div class="title">
+                                                           {{shoppingCarteOrder.contact.firstName}}
+                                                           {{shoppingCarteOrder.contact.lastName}}
+                                                        </div>
+                                                        <div class="address">
+                                                                {{shoppingCarteOrder.address?.number}}
+                                                                {{shoppingCarteOrder.address?.address}}
+                                                                {{shoppingCarteOrder.address?.address2}}
+                                                                {{shoppingCarteOrder.address?.suburb}}
+                                                                {{shoppingCarteOrder.address?.state}}
+                                                        </div>
+                                                        <div class="phone">{{shoppingCarteOrder.contact.mobile}}</div>
+                                                        <div class="email">{{shoppingCarteOrder.contact.email}}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="issuer mat-accent-bg" fxLayout="row" fxLayoutAlign="start center">
+                                                    <div class="logo">
+                                                        <img src="assets/images/logos/fuse.svg">
+                                                    </div>
+
+                                                    <div class="info">
+                                                        <div class="title">Selltime INC.</div>
+                                                        <div class="address">2810 Country Club Road Cranford, NJ 07016</div>
+                                                        <div class="phone">+66 123 455 87</div>
+                                                        <div class="email">info@selltime.com</div>
+                                                        <div class="website">portal.selltime.com</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="content">
+
+                                            <table class="simple invoice-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>PRODUCT</th>
+                                                        <th class="text-right">PRICE</th>
+                                                        <th class="text-right">QUANTITY</th>
+                                                        <th class="text-right">TOTAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let product of  shoppingCarteOrder.products">
+
+                                                        <td>
+                                                            <div class="title">
+                                                                {{product.productTitle}}
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{product.unitPrice | currency:'USD':'symbol'}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{product.count}}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{product.unitPrice * product.count | currency:'USD':'symbol'}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <table class="simple invoice-table-footer">
+                                                <tbody>
+                                                    <tr class="subtotal">
+                                                        <td>SUBTOTAL</td>
+                                                        <td>{{shoppingCarteOrder.cartNett | currency:'USD':'symbol'}}</td>
+                                                    </tr>
+                                                    <tr class="tax">
+                                                        <td>TAX</td>
+                                                        <td>{{shoppingCarteOrder.cartTax | currency:'USD':'symbol'}}</td>
+                                                    </tr>
+                                                    <tr class="discount">
+                                                        <td>DISCOUNT</td>
+                                                        <td>-{{shoppingCarteOrder.cartDiscount | currency:'USD':'symbol'}}</td>
+                                                    </tr>
+                                                    <tr class="total">
+                                                        <td>TOTAL</td>
+                                                        <td>{{shoppingCarteOrder.paymentTotal | currency:'USD':'symbol'}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="footer">
+                                            <div fxLayout="row" fxLayoutAlign="start start">
+                                                <div class="logo">
+                                                    <img src="assets/images/logos/fuse.svg">
+                                                </div>
+                                                <div class="note">Please pay within 15 days. Thank you for your business.</div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- / INVOICE -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+</div>

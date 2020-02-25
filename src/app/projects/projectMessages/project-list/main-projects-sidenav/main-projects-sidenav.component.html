@@ -1,0 +1,48 @@
+<!-- SIDENAV HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start" class="header p-24 pb-4" [ngClass]="headerBg" ngClass.gt-md="white-fg">
+
+  <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+    <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Projects</span>
+  </div>
+
+
+  <!-- <div class="account" fxLayout="column" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'300ms'}}">
+    <div class="title">Filter By User</div>
+    <mat-form-field floatPlaceholder="never">
+      <mat-select class="account-selection" placeholder="Mail Selection" [ngModel]="selectedAccount">
+        <mat-option *ngFor="let account of (accounts | keys)" [value]="account.key">
+          {{account.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<div class="content" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*',params:{y:'50px'}}">
+
+  <div class="p-24">
+    <button mat-raised-button fxFlex class="mat-accent compose-dialog-button" (click)="newProject()" aria-label="NewProject">
+      New Project
+    </button>
+  </div>
+
+  <div class="nav">
+
+    <div class="nav-subheader text-uppercase ">Projects</div>
+
+    <div class="nav-item" *ngFor="let project of projects">
+      <a class="nav-link" matRipple (click)="selectProject(project)" [ngClass]="{'active': project.id === selectedProject?.id}">
+        <mat-icon class="nav-link-icon">label</mat-icon>
+        <span>{{project.name}}</span>
+      </a>
+    </div>
+    
+  </div>
+
+</div>
+<!-- / SIDENAV CONTENT -->

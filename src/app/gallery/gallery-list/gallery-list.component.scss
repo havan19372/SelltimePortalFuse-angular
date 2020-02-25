@@ -1,0 +1,217 @@
+#add-File-button {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 0;
+    z-index: 99;
+  }
+  @import "src/@fuse/scss/fuse";
+ .fuse-card{
+    margin-top: 20px;
+    min-height: 120px;
+    img{
+    }
+
+ }
+ .myImg {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+.content1 {
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+ 
+mat-grid-list{
+    flex-grow: 1;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    overflow: auto;
+    img{
+        max-height: 100%;    padding: 10px;
+
+    }
+    button{
+        position: inherit;
+        bottom: 0px;
+        mat-icon{
+            color: #ffb0b0;
+        }
+    }
+}
+mat-grid-tile {
+    padding: 3px;
+   }
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes zoom {
+    from {transform: scale(0.1)}
+    to {transform: scale(1)}
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+
+#file-manager {
+
+    mat-sidenav-container {
+
+        .sidenav {
+            width: 320px !important;
+            min-width: 320px !important;
+            max-width: 320px !important;
+
+            &.left-sidenav {
+            }
+
+            &.right-sidenav {
+                @include media-breakpoint('gt-md') {
+                    z-index: 0;
+                }
+            }
+        }
+
+        > .mat-sidenav-content,
+        > .mat-drawer-content {
+            z-index: 1;
+
+            .center {
+
+                .header {
+
+
+                    position: relative;
+                    height: 160px;
+                    min-height: 160px;
+                    max-height: 160px;
+
+                    @include media-breakpoint-down('sm') {
+                        height: 120px;
+                        min-height: 120px;
+                        max-height: 120px;
+                    }
+
+                    .add-file-button {
+                        position: absolute;
+                        bottom: -28px;
+                        left: 16px;
+                        z-index: 999;
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    .type-icon {
+
+        &.folder {
+            &:before {
+                content: 'folder';
+                color: #FFB300;
+            }
+        }
+
+        &.document {
+            &:before {
+                content: 'insert_drive_file';
+                color: #1565C0;
+            }
+        }
+
+        &.spreadsheet {
+            &:before {
+                content: 'insert_chart';
+                color: #4CAF50;
+            }
+        }
+    }
+}
+
+
+.logo {
+
+  .logo-icon {
+      margin: 0 16px 0 0;
+  }
+
+  .logo-text {
+      font-size: 24px;
+      line-height: 24px;
+  }
+}

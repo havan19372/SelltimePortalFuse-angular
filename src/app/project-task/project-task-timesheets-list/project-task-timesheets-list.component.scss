@@ -1,0 +1,104 @@
+@import 'src/@fuse/scss/fuse';
+
+:host {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  padding: 0;
+  border-right: 1px solid rgba(0, 0, 0, .12);
+
+  .no-todos-text {
+      font-size: 24px;
+      font-weight: 300;
+  }
+}
+
+
+.todo-list-item {
+    display: block;
+    position: relative;
+    padding: 16px 16px 16px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    text-transform: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: #FFFFFF;
+
+    .handle {
+        height: 48px;
+        line-height: 48px;
+        cursor: move;
+        user-select: none;
+    }
+
+
+
+
+
+    &.selected {
+        background: #FFF8E1;
+    }
+
+    .info {
+        margin: 0 16px 0 8px;
+
+        .title {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .notes {
+            margin-top: 4px;
+        }
+    }
+
+    .buttons {
+
+        .is-starred {
+            margin: 0 0 0 16px;
+        }
+
+        .is-important {
+            margin: 0;
+        }
+    }
+
+    &:not(.has-handle):not(.move-disabled),
+    &.has-handle [ngxdraghandle],
+    &.has-handle [ngxDragHandle] {
+        cursor: move;
+    }
+
+    .ngx-dnd-content {
+        user-select: none;
+    }
+
+    &.gu-mirror {
+        position: fixed !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        opacity: 0.8;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+        filter: alpha(opacity=80);
+        @include mat-elevation(7);
+    }
+
+    &.gu-hide {
+        display: none !important;
+    }
+
+    &.gu-unselectable {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+
+    &.gu-transit {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        filter: alpha(opacity=20);
+    }
+}

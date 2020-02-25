@@ -1,0 +1,112 @@
+<div *ngIf="!message.project" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+  <mat-icon class="s-128 mb-16 select-message-icon" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+    email
+  </mat-icon>
+  <span class="select-message-text hint-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'400ms'}}">
+    <span>SELECT A MESSAGE TO READ</span>
+  </span>
+</div>
+
+<div *ngIf="message.project">
+
+  <div class="message-header" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <div>
+      <div class="subject" flex>{{message.project}}</div>
+    </div>
+
+    <div class="actions" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <button mat-button class="mat-icon-button" matTooltip="Edit Message" (click)="editMessage(message)" aria-label="Toggle star">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="message-content">
+
+    <div class="info" fxLayout="row wrap" fxLayoutAlign="space-between start">
+
+      <div fxFlex fxLayout="column" fxLayoutAlign="start start">
+
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+          <div>
+            <img alt="{{message.creator}}" src="assets/images/avatars/profile.jpg" class="avatar" />
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="start start">
+
+            <div class="name">
+              {{message.creator}}
+            </div>
+
+            <div class="to" fxLayout="row wrap" fxLayoutAlign="start center">
+              <div class="to-text">to</div>
+              <div> Admin</div>
+            </div>
+          </div>
+        </div>
+
+        <a class="toggle-details" (click)="showDetails = !showDetails">
+          <span *ngIf="!showDetails">Show Details</span>
+          <span *ngIf="showDetails">Hide Details</span>
+        </a>
+
+        <div *ngIf="showDetails" class="details" fxLayout="row wrap" fxLayoutAlign="start start">
+
+          <div fxLayout="column">
+            <span class="title">From:</span>
+            <!-- <span class="title">To:</span> -->
+            <span class="title">Date:</span>
+          </div>
+
+          <div fxLayout="column">
+            <span class="detail">{{ message.creator }}</span>
+            <!-- <span class="detail">{{message.to[0].emessage}}</span> -->
+            <span class="detail">{{ message.createDate | date : 'dd MMM' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button mat-button [matMenuTriggerFor]="moreMenu" aria-label="More" class="mat-icon-button" (click)="$event.stopPropagation()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item aria-label="Reply">
+          <mat-icon>reply</mat-icon>
+          <span>Add Comment</span>
+        </button>
+
+      </mat-menu>
+    </div>
+
+    <div [innerHTML]="message.detail"></div>
+
+  </div>
+
+  <div *ngIf="message.attachments" class="message-attachments">
+
+    <div class="title">
+      <span>Attachments</span>
+      ({{message.attachments?.length}})
+    </div>
+
+    <div class="attachment-list" fxLayout="row wrap" fxLayoutWrap>
+
+      <div class="attachment" fxLayout="column" *ngFor="let attachment of message.attachments">
+           
+        <img *ngIf="attachment.fileExtension!=='.pdf'"  class="preview" src="{{imageUrl + attachment.url}}">
+        <i class="material-icons" *ngIf="attachment.fileExtension==='.pdf'">insert_drive_file</i>
+        <div fxLayout="column">
+          <a [href]="imageUrl + attachment.url" target="_blank">View</a>
+          <!--  <a [href]="imageUrl + attachment.url"  target="_blank" download>Download</a> 
+         <div class="size">({{attachment.id}})</div> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

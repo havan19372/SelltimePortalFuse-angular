@@ -1,0 +1,32 @@
+<div id="AllProjects" class="page-layout carded left-sidenav">
+
+  <div class="top-bg mat-accent-bg"></div>
+
+  <mat-sidenav-container>
+    <!-- SIDENAV -->
+    <mat-sidenav #filterSidebar class="sidenav" align="end">
+      <app-filter-sidebar [projects]="projectList$"></app-filter-sidebar>
+    </mat-sidenav>
+
+    <div class="center">
+
+      <div class="mt-16">
+
+        <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+          <mat-icon color="white">menu</mat-icon>
+        </button>
+
+        <div class="content-card mat-white-bg " *blockUI=" 'tasksTable' ">
+
+          <app-create-task (getTasksByName)="onGetTasksByName($event)" [tasks]="tasksList" [projects]="projectList$" (saveTask)="onSaveTask($event)"></app-create-task>
+
+        </div>
+
+        <app-timesheets [tasks]="tasksList"   (onSaveTimesheet)="saveTimesheet($event)"  ></app-timesheets>
+
+      </div>
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,70 @@
+<mat-table #table [dataSource]="timeSheets" matSort [@animateStagger]="{value:'50'}" >
+            
+    <ng-container cdkColumnDef="id">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>#</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p>000{{time.id }}</p>
+      </mat-cell>
+    </ng-container>
+    
+    <ng-container cdkColumnDef="description">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Decription</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p class="text-truncate" *ngIf="time.notes">
+          {{time.notes| htmlToPlaintext | slice:0:50}}{{time.notes.length > 50 ? '...' : ''}}
+        </p>
+      </mat-cell>
+    </ng-container>
+    <!-- <ng-container cdkColumnDef="assign">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Assign</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p class="text-truncate" *ngIf="time.assign">
+         {{ time.assign?.name}}
+        </p>
+      </mat-cell>
+    </ng-container> -->
+    <!-- cardNumber Column -->
+    <ng-container cdkColumnDef="taskName">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Task</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p class="text-truncate" *ngIf="time.taskName">
+          {{time.taskName| htmlToPlaintext | slice:0:50}}{{time.taskName.length > 50 ? '...' : ''}}
+        </p>
+      </mat-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="project">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Project</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p class="text-truncate" *ngIf="time.projectName">
+          {{time.projectName| htmlToPlaintext | slice:0:50}}{{time.projectName.length > 50 ? '...' : ''}}
+        </p>
+      </mat-cell>
+    </ng-container>
+    <!-- cardNumber Column -->
+    <!-- <ng-container cdkColumnDef="startDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Start</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p>{{time.startDate | date : 'dd MMM' }}</p>
+      </mat-cell>
+    </ng-container> -->
+   
+    <ng-container cdkColumnDef="completeDate">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>Complete</mat-header-cell>
+      <mat-cell *cdkCellDef="let time">
+        <p>{{time.completeDate | date : 'dd MMM' }}</p>
+      </mat-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="hours">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header>Hours</mat-header-cell>
+        <mat-cell *cdkCellDef="let time">
+          <p>{{time.hours  }}</p>
+        </mat-cell>
+      </ng-container>
+    
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *cdkRowDef="let time; columns: displayedColumns;" class="product" matRipple>
+      </mat-row>  
+  </mat-table>
+
+ 

@@ -1,0 +1,61 @@
+<div *ngIf="comments.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <span class="no-text hint-text text-uppercase text-center">No Commets to view </span>
+</div>
+<div class="mail-list" *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+
+  <div fxLayout="row wrap" class="timeSheetItem" fxLayoutAlign="start center" *ngFor="let comment of comments"
+       [@animate]="{value:'*',params:{y:'100%'}}">
+    <div class="info" fxFlex FlexLayout="column">
+      <div class="row-1" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="name" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex>
+          <img class="avatar" alt="{{comment?.creator}}" src="assets/images/avatars/profile.jpg" />
+
+          <span class="text-truncate" *ngIf="comment?.creator">{{comment?.creator}}</span>
+          <mat-icon *ngIf="comment.attachmentCount">attachment</mat-icon>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+          <div class="time">{{comment.createDate | date : 'dd MMM' }}</div>
+          <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation()" fxHide.xs>
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+          </button>
+          <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="edit time record" (click)="EditTimesheet(comment)">
+              <mat-icon color="accent">edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item aria-label="delete time record" (click)="openDeleteConfirmationModal(comment)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+
+      </div>
+      <div class="row-2" fxLayout="row wrap" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutAlign="start start">
+          <div class="comment" *ngIf="comment?.comment">
+            {{comment.comment | htmlToPlaintext | slice:0:180}}
+            {{comment.comment.length > 180 ? '...' : ''}}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-content">
+     <app-attachment [attachments]="comment.attachments"></app-attachment>
+        
+    </div>
+  </div>
+
+
+    <!-- <mat-chip-list>
+    <mat-chip>One fish</mat-chip>
+    <mat-chip>Two fish</mat-chip>
+    <mat-chip color="primary" selected>Primary fish</mat-chip>
+    <mat-chip color="accent" selected>Accent fish</mat-chip>
+  </mat-chip-list> -->
+
+  </div>

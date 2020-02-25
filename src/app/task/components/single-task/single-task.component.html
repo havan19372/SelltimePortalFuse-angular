@@ -1,0 +1,93 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="taskForm">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+
+        <input formControlName="id" hidden>
+        <mat-form-field fxFlex="100%" class="w-100-p">
+          <input matInput name="name" placeholder="Title" formControlName="name" required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="100%" class="w-100-p">
+          <textarea matInput name="detail" placeholder="Description..." rows="3" formControlName="detail">
+        </textarea>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <mat-select placeholder="Project "   formControlName="projectId"  >
+            <mat-option *ngFor="let project of projectList" [value]="project.value">
+              {{project.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <mat-select placeholder="Sub Project " formControlName="projectSubId">
+            <mat-option *ngFor="let project of filteredSubProject" [value]="project.value">
+              {{project.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <mat-select placeholder="statusId" formControlName="statusId"  >
+            <mat-option *ngFor="let status of taskStatus" [value]="status.value">
+              {{status.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <input matInput type="number" name="refNum" placeholder="Ref #" formControlName="refNum">
+        </mat-form-field>
+        <mat-form-field fxFlex="45%">
+            <input matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field fxFlex="45%">
+            <input matInput [matDatepicker]="completeDate" placeholder="Complete Date" formControlName="completeDate">
+            <mat-datepicker-toggle matSuffix [for]="completeDate"></mat-datepicker-toggle>
+            <mat-datepicker #completeDate></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field fxFlex="45%">
+              <input matInput type="number" placeholder="estimateHour" formControlName="estimateHour" >
+          </mat-form-field>
+          <!--provide here a list of user-->
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <mat-select placeholder="User Name " formControlName="assignId" >
+            <mat-option *ngFor="let user of userList" [value]="user.id">
+              {{user.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <button *ngIf="action ==='edit'" mat-button class="mat-icon-button" (click)="dialogRef.close(['delete',taskForm])"
+      aria-label="Delete" matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+
+    <button mat-raised-button (click)="dialogRef.close(taskForm)" class="save-button mat-accent" [disabled]="taskForm.invalid"
+      aria-label="SAVE">
+      SAVE
+    </button>
+
+  </div>
+</div>

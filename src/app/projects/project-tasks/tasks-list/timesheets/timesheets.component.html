@@ -1,0 +1,92 @@
+<!-- CONTENT TOOLBAR -->
+<div class=center>
+  <div class="content-card mat-white-bg" *ngFor="let task of tasks">
+    <div class="toolbar px-24 py-8">
+
+      <div class="mail-selection" fxFlex="row" fxLayoutAlign="start center">
+
+        <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+          <span class="logo-text text-capitalize" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+            <span>
+              {{ task.name }} </span>
+            <mat-chip color="primary" selected="true" class="ml-4">{{ task.projectName }}</mat-chip>
+          </span>
+        </div>
+        <div class="toolbar-separator"></div>
+        <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">timer</mat-icon>
+        <mat-chip color="primary" selected="true" class="mat-chip">
+          {{ task.estimateHour }}
+        </mat-chip>
+
+        <div class="toolbar-separator"></div>
+        <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          date_range
+        </mat-icon>
+        <mat-chip color="accent" selected="true" class="mat-chip">
+          {{ task.startDate | date : 'dd/MM/yyyy' }}
+        </mat-chip>
+        <div class="toolbar-separator"></div>
+        <button mat-mini-fab color="accent" (click)="addTimesheet(task)" matTooltip="Add Timesheet">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+    </div>
+    <!-- / CONTENT TOOLBAR -->
+
+    <!-- CONTENT -->
+    <div class="content" fxLayout="column " fxLayoutAlign="start center">
+
+      <mat-card fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px" *ngFor="let timesheet of task.timesheets">
+        <mat-form-field fxFlex="40%">
+          <input matInput placeholder="Notes" [(ngModel)]="timesheet.notes" type="text" autocomplete="off">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="" style="width:130px">
+          <input matInput [matDatepicker]="picker" placeholder="Start Date " [(ngModel)]="timesheet.startDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="" style="width:105px">
+          <input matInput placeholder="Start Time" [(ngModel)]="timesheet.startTime" type="time">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="" style="width:105px">
+          <input matInput placeholder="End Time" [(ngModel)]="timesheet.endTime" type="time">
+        </mat-form-field>
+
+
+        <mat-form-field fxFlex="" style="width:80px">
+          <input matInput placeholder="Hours" [(ngModel)]="timesheet.totalTime" type="text" disabled >
+        </mat-form-field>
+
+
+        <div fxFlex="20%" style="display: flex;justify-content: space-evenly;">
+
+          <button mat-mini-fab color="warn" (click)="stopTimer(timesheet,task)" matTooltip="Stop Timer" *ngIf="timesheet.timerRunning">
+            <mat-icon>pause</mat-icon>
+          </button>
+
+          <button mat-mini-fab color="accent" (click)="startTimer(timesheet,task)" matTooltip="Start Timer" *ngIf="!timesheet.timerRunning">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+
+          <button mat-mini-fab color="primary" matTooltip="Add Attachment">
+            <mat-icon>comment</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" matTooltip="Add Attachment">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+
+          <button mat-mini-fab color="accent" matTooltip="Save Timesheet" (click)="saveTimesheet(timesheet)">
+            <mat-icon>save</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+
+    </div>
+    <!-- / CONTENT -->
+  </div>
+
+</div>

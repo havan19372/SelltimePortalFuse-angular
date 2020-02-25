@@ -1,0 +1,57 @@
+<!-- CONTENT HEADER -->
+<div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+<div class="search-wrapper mat-white-bg" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+  <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+    <mat-icon>menu</mat-icon>
+  </button>
+ <!---->
+  <div class="search" flex fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-icon>search</mat-icon>
+    <!--(ngModelChange)="dataChanged($event)"-->
+    <input [formControl]="searchInput" type="number"  placeholder="Search for task by Id"  fxFlex>
+    <mat-icon (click)="isOpenSearch()" class="cursor-pointer">arrow_downward</mat-icon>
+    
+    <mat-slide-toggle
+        class="example-margin"
+         
+        
+         >
+        My Task
+    </mat-slide-toggle>
+  </div>
+
+  <div class="collapsePopup" *ngIf="!isCollapsed">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+        <mat-form-field fxFlex="50%">
+          <input matInput name="project" placeholder="Project">
+        </mat-form-field>
+        <mat-form-field fxFlex="50%">
+          <input matInput name="subProject" placeholder="Sub Project">
+        </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+         <mat-form-field fxFlex="50%">
+          <input matInput name="task" placeholder="Task">
+        </mat-form-field>
+        <mat-form-field fxFlex="50%">
+          <input matInput name="user" placeholder="User">
+        </mat-form-field>
+     </div>
+     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+        <mat-form-field fxFlex="50%">
+          <input matInput name="date" [matDatepicker]="date" placeholder="Date">
+          <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+          <mat-datepicker #date></mat-datepicker>
+        </mat-form-field> 
+     </div>
+      <div class="text-right">
+        <button mat-raised-button class="mat-accent compose-dialog-button" aria-label="NewTask">
+          Save
+        </button>
+      </div>
+  </div>
+</div>
+</div>
+<!-- / CONTENT HEADER -->

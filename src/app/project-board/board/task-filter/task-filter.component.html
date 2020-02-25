@@ -1,0 +1,63 @@
+<form [formGroup]="taskFilterForm">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+
+    <mat-form-field fxFlex="45%" class="w-100-p">
+      <input matInput name="name" placeholder="Title" formControlName="name" >
+    </mat-form-field>
+    <mat-form-field fxFlex="45%" class="w-100-p">
+      <input matInput name="refNum" placeholder="Ref #" formControlName="refNum">
+    </mat-form-field>
+
+
+    <mat-form-field fxFlex="45%" class="w-100-p">
+      <mat-select placeholder="Project "   formControlName="projectId"  >
+        <mat-option *ngFor="let project of projectList" [value]="project.value">
+          {{project.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex="45%" class="w-100-p">
+      <mat-select placeholder="Sub Project " formControlName="projectSubId">
+        <mat-option *ngFor="let project of filteredSubProject" [value]="project.value">
+          {{project.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <mat-form-field fxFlex="45%">
+        <input matInput [matDatepicker]="dateFrom" placeholder="Start Date" formControlName="dateFrom">
+        <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+        <mat-datepicker #dateFrom></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex="45%">
+        <input matInput [matDatepicker]="dateTo" placeholder="Complete Date" formControlName="dateTo">
+        <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+        <mat-datepicker #dateTo></mat-datepicker>
+      </mat-form-field>
+
+        <mat-form-field fxFlex="45%" class="w-100-p">
+          <mat-select placeholder="Status " formControlName="statusId" >
+            <mat-option *ngFor="let item of statuses" [value]="item.value">
+              {{item.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      <!--provide here a list of user-->
+    <mat-form-field fxFlex="45%" class="w-100-p">
+      <mat-select placeholder="User Name " formControlName="userId" >
+        <mat-option class="red-500-fg" (click)="taskFilterForm.get('userId').reset()">Clear Selection</mat-option>
+        <mat-option *ngFor="let user of userList" [value]="user.id">
+          {{user.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+</form>
+
+<div class="text-right">
+<button mat-raised-button class="mat-accent compose-dialog-button" aria-label="Filter Tasks" (click)="filterTask()">
+Filter
+</button>
+</div>

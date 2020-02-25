@@ -1,0 +1,109 @@
+<div id="members" class="page-layout simple left-sidenav inner-sidenav">
+
+  <!-- HEADER -->
+  <div class="header mat-accent-bg p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+    <!-- APP TITLE -->
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+      <div class="logo" fxLayout="row wrap" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">assessment</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Members</span>
+      </div>
+    </div>
+    <!-- / APP TITLE -->
+
+    <!-- SEARCH -->
+    <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+      <label for="search" class="mr-8">
+        <mat-icon>search</mat-icon>
+      </label>
+      <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+        <input matInput id="search" [(ngModel)]="search" (ngModelChange)="dataChanged($event)" placeholder="Search for anything">
+      </mat-form-field>
+    </div>
+    <!-- / SEARCH -->
+
+    <button mat-raised-button class="mat-white-bg my-12 mt-sm-0" (click)="onAddClick()" aria-label="add Member" *fuseIfOnDom
+      [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+      <span class="text-uppercase"> New Member</span>
+    </button>
+  </div>
+  <!-- / HEADER -->
+
+  <div class="content p-24">
+
+    <div fxLayout="column" fxLayoutAlign="center">
+
+      <div class="members" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap>
+
+        <div class="member" *ngFor="let item of membersList;  let i = index" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33" >
+          <!-- [ngClass]="member.industry" -->
+
+          <div class="member-content" fxLayout="column">
+
+            <div class="header web-bg" fxLayout="row wrap" fxLayoutAlign="space-between" [ngStyle]="{'background-color': getColor(i)}">
+
+              <div class="p-10" fxLayout="row wrap" fxLayoutAlign="start center">
+                 <img class="w-70  border-radius-100" [src]="imageUrl+item.logo" *ngIf="item.logo">
+                <img class="w-70  border-radius-100" *ngIf="!item.logo" src="assets/images/ecommerce/product-image-placeholder.png">
+      
+                <div class="ml-16">
+                  <div class="text-bold">{{item.name}}</div>
+                </div>
+              </div>
+
+              <div class="length" fxLayout="row wrap" fxLayoutAlign="center center">
+                  <mat-icon _ngcontent-c176="" class="s-24 mat-icon material-icons" role="img" aria-hidden="true" [ngStyle]="{'cursor': 'pointer'}" (click)="onEditClick(item)">edit</mat-icon>
+              </div>
+
+            </div>
+
+            <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+              <mat-icon color="accent" class="length-icon secondary-text mat- s-40">account_circle</mat-icon>
+              <span class="mat-headline">{{item.name}}</span>
+            </div>
+     
+            <div class="footer" fxLayout="row wrap" fxLayoutAlign="center center">
+              <button  (click)="onUsersClick(item)" color="accent" mat-button=""
+              [matBadge]="item.usersCount" matBadgePosition="after" matBadgeColor="accent"
+              tabindex="0" class="mat-button mat-accent">
+                <span class="mat-button-wrapper">
+                  Users  
+                </span>
+            </button>
+            <button  [routerLink]="['/business/list']"  color="accent" mat-button="" tabindex="0"
+            [matBadge]="item.businessCount" matBadgePosition="after" matBadgeColor="warn"
+            class="mat-button mat-accent">
+                
+                <span class="mat-button-wrapper">
+                    Business
+                </span>
+            </button>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="no-members" *ngIf="(membersList.length === 0) && (memberLength == true) ">
+          No Members found!
+        </div>
+
+        <div class="members" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="loader">
+            <mat-spinner color="accent"></mat-spinner>
+        </div>
+
+      </div>
+
+      <mat-paginator [length]="length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="getServerPaginationData( $event )">
+      </mat-paginator>
+
+    </div>
+
+  </div>
+ 
+    
+</div>

@@ -1,0 +1,60 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="projectForm">
+      <input formControlName="id" hidden>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input name="name" formControlName="name" placeholder="Project Name" matInput required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex class="w-100-p">
+          <textarea matInput name="detail" formControlName="detail" placeholder="Project Details" rows="5">
+          </textarea>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input matInput name="startDate" formControlName="startDate" [matDatepicker]="startDate" placeholder="Start Date">
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input matInput name="completeDate" formControlName="completeDate" [matDatepicker]="completeDate" placeholder="Complete Date">
+          <mat-datepicker-toggle matSuffix [for]="completeDate"></mat-datepicker-toggle>
+          <mat-datepicker #completeDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <button *ngIf="action ==='edit'" matTooltip="Delete Project" mat-button class="mat-icon-button" (click)="deleteProject()" aria-label="Delete"
+      matTooltip="Delete">
+      <mat-icon class="red-500-fg">delete</mat-icon>
+    </button>
+    <button mat-raised-button (click)="dialogRef.close(['add',projectForm])" *ngIf="action === 'add' " class="save-button mat-accent" [disabled]="projectForm.invalid"
+      aria-label="SAVE">
+      SAVE
+    </button>
+    <button mat-raised-button (click)="dialogRef.close(['edit',projectForm])" *ngIf="action === 'edit' " class="save-button mat-accent" [disabled]="projectForm.invalid"
+      aria-label="SAVE">
+      Edit
+    </button>
+  </div>
+</div>

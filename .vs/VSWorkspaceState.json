@@ -1,0 +1,23 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\projects",
+    "\\src\\app\\projects\\projectMessages",
+    "\\src\\app\\projects\\projectMessages\\project-list",
+    "\\src\\app\\projects\\projectMessages\\project-list\\messages-list",
+    "\\src\\app\\projects\\projectMessages\\project-list\\messages-list\\message-list-item",
+    "\\src\\app\\task",
+    "\\src\\app\\task\\components",
+    "\\src\\app\\task\\components\\comment-single",
+    "\\src\\app\\task\\components\\single-task",
+    "\\src\\app\\task\\components\\single-timesheet",
+    "\\src\\app\\task\\components\\task-filter",
+    "\\src\\app\\task\\components\\task-main",
+    "\\src\\app\\task\\models",
+    "\\src\\app\\task\\service"
+  ],
+  "SelectedNode": "\\src\\app\\task\\components\\comment-single\\comment-single.component.spec.ts",
+  "PreviewInSolutionExplorer": false
+}

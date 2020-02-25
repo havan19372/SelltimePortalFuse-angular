@@ -1,0 +1,116 @@
+<form name="productMainTabForm" [formGroup]="productImagesForm" class="product w-100-p" fxLayout="column" fxFlex>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+    <div fxFlex="70%" class="w-100-p">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+
+        <div class="  product" fxLayout="column" fxLayoutAlign="center center">
+          <div class="h3 pr-16"> Main Image</div>
+
+          <div>
+            <div class="product-image" fxLayout="row wrap" fxLayoutAlign="center center">
+              <img *ngIf="product.mainImage" class="media" [src]="ImageUrl+product.mainImage">
+              <img class="image-holder" *ngIf="!product.mainImage" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+            </div>
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutAlign="start center">
+            <button mat-icon-button class="add-file-button mat-warn" matTooltip="delete Alt Image" (click)="clearImage(product.mainImage)">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+            <input hidden type="file" (change)="onChange($event,1)" #mainImageInput/>
+            <button mat-icon-button class="add-file-button mat-success" (click)="mainImageInput.click()" matTooltip="  Alt Image" >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+
+        </div>
+        <div class="  product" fxLayout="column" fxLayoutAlign="center center">
+          <div class="h3 pr-16"> Thumb Image</div>
+
+          <div>
+            <div class="product-image" fxLayout="row wrap" fxLayoutAlign="center center">
+              <img *ngIf="product.thumbImage" class="media" [src]="ImageUrl+product.thumbImage">
+              <img class="image-holder" *ngIf="!product.thumbImage" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+            </div>
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutAlign="start center">
+            <button mat-icon-button class="add-file-button mat-warn" matTooltip="delete Alt Image">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+            <input hidden type="file" (change)="onChange($event,2)" #thumbImageInput/>
+            <button mat-icon-button class="add-file-button mat-success" (click)="thumbImageInput.click()" matTooltip="  Alt Image">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+
+        </div>
+
+
+        <div class="  product" fxLayout="column" fxLayoutAlign="center center">
+          <div class="h3 pr-16"> Alt Image</div>
+          <div>
+            <div class="product-image" fxLayout="row wrap" fxLayoutAlign="center center">
+              <img *ngIf="product.altImage" class="media" [src]="ImageUrl+product.altImage">
+              <img class="image-holder" *ngIf="!product.altImage" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+            </div>
+          </div>
+          <input hidden type="file" (change)="onChange($event,3)" #altImageInput/>
+
+          <div fxLayout="row wrap" fxLayoutAlign="start center">
+            <button mat-icon-button class="add-file-button mat-warn" matTooltip="delete Alt Image">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+            <button mat-icon-button class="add-file-button mat-success" (click)="altImageInput.click()" matTooltip=" Alt Image">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <div fxFlex="30%" class="w-100-p">
+
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="pt-50">
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+          <div class="h4 pr-16">Other Images</div>
+
+          <div>
+            <div class="file-uploader" fxLayout="row wrap" fxLayoutAlign="center center">
+              <input hidden type="file" (change)="onChange($event,0)" multiple #fileInput/>
+
+              <button mat-icon-button class="add-file-button mat-raised-button" (click)="fileInput.click()" matTooltip="Add file">
+                <mat-icon color="warn">add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="  product" *ngFor="let image of product.attachments">
+          <div>
+            <div *ngIf="product.attachments.length > 0" class="product-image">
+              <img class="media" [src]="ImageUrl+image.url">
+            </div>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+            <button mat-icon-button class="add-file-button mat-warn" (click)="clearImage(image)" matTooltip="delete file">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</form>

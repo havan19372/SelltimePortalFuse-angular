@@ -1,0 +1,92 @@
+<div id="mail" class="page-layout carded left-sidenav" fusePerfectScrollbar *blockUI=" 'projectListBlock' ">
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <mat-sidenav-container>
+
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" mode="side" opened="true" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+      <app-main-projects-sidenav [headerBg]=" 'mat-accent-bg' " (onProjectSelection)="getMessages($event)"></app-main-projects-sidenav>
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+
+
+    <!-- CENTER -->
+    <div class="center">
+
+      <!-- CONTENT HEADER -->
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="search-wrapper" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+          <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <div class="search mat-white-bg" flex fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon>search</mat-icon>
+            <input [formControl]="searchInput" placeholder="Search For Messages" fxFlex>
+          </div>
+        </div>
+
+      </div>
+      <!-- / CONTENT HEADER -->
+
+
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg" [ngClass]="{'current-mail-selected':currentMail}">
+
+        <!-- CONTENT TOOLBAR -->
+        <div class="toolbar px-24 py-8">
+
+          <div class="mail-selection" fxFlex="row" fxLayoutAlign="start center">
+
+            <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+              <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">email</mat-icon>
+              <span class="logo-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <span *ngIf="selectedProject?.name">Messages For
+                  <small class="accent-400-fg">{{ selectedProject?.name }}</small>
+                  <mat-icon color="primary" *ngIf="selectedProject?.name" matTooltip="Edit Project" (click)="newProject()">edit</mat-icon>
+                </span>
+                <span *ngIf="!selectedProject?.name">Messages</span>
+              </span>
+            </div>
+
+
+            <div class="toolbar-separator" *ngIf="selectedProject?.name"></div>
+
+
+
+
+            <div class="toolbar-separator" *ngIf="selectedProject?.name"></div>
+
+            <button mat-button color="accent" *ngIf="selectedProject?.name" matTooltip="Add Message" (click)="addMessage()">
+              <mat-icon>add</mat-icon>
+            </button>
+
+          </div>
+
+        </div>
+        <!-- / CONTENT TOOLBAR -->
+
+        <!-- CONTENT -->
+        <div class="content" fxLayoutAlign="row">
+
+          <app-messages-list fusePerfectScrollbar fxFlex></app-messages-list>
+
+          <app-message-details fusePerfectScrollbar fxFlex></app-message-details>
+
+        </div>
+        <!-- / CONTENT -->
+
+      </div>
+      <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+
+</div>

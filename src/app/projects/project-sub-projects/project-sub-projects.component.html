@@ -1,0 +1,60 @@
+<div id="subProjects" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <div class="center">
+    <!-- HEADER -->
+    <div class="header  p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="logo" fxLayout="row wrap" fxLayoutAlign="start center">
+          <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">filter_none</mat-icon>
+          <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">SubProjects</span>
+        </div>
+
+      </div>
+      <!-- / APP TITLE -->
+
+      <!-- SEARCH -->
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+          <label for="search" class="mr-8">
+            <mat-icon>search</mat-icon>
+          </label>
+          <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+            <input matInput [formControl]="searchInput" id="search" placeholder="Search for anything">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        </div>
+
+      </div>
+      <!-- / SEARCH -->
+
+      <button mat-raised-button class="mat-white-bg my-12 mt-sm-0" (click)="newSubProject()" aria-label="add Project" *fuseIfOnDom
+        [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+        <span class="text-uppercase"> New SubProject</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <div class="content-card mat-white-bg" *blockUI=" 'SubProjectsTable' ">
+
+      <div fxLayout="column" fxLayoutAlign="center">
+        <app-sub-projects-table [filter]="searchInput" (callNewSubProject)="newSubProject($event)"></app-sub-projects-table>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>

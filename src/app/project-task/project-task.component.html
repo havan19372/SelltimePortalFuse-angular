@@ -1,0 +1,120 @@
+<div id="todo" class="page-layout carded left-sidenav" fusePerfectScrollbar *blockUI=" 'projectTimesheetListBlock' ">
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-primary-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <mat-sidenav-container>
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" opened="true" mode="side" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+      <app-main-tasks-sidenav [headerBg]=" 'mat-warn-bg' " [filter]="searchInput" (onTaskSelection)="getTaskTimesheets($event)"> </app-main-tasks-sidenav>
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+    <!-- CENTER -->
+    <div class="center">
+
+      <!-- Old Search Filter -->
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="search-wrapper mat-white-bg" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+          <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <div class="search" flex fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon>search</mat-icon>
+
+            <input [formControl]="searchInput" type="number"  placeholder="Search for task by Id" (keyup)="searchKeyUp($event)"fxFlex>
+            <mat-icon (click)="isOpenSearch()" class="cursor-pointer">arrow_downward</mat-icon>
+            
+            <mat-slide-toggle
+              [checked]="myValue" (change)="changeEvent($event)"
+                class="example-margin"
+                [color]="color"
+                [checked]="checked"
+                [disabled]="disabled">
+                My Task
+            </mat-slide-toggle>
+          </div>
+
+          <div class="collapsePopup" *ngIf="!isCollapsed">
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+                <mat-form-field fxFlex="50%">
+                  <input matInput name="project" placeholder="Project">
+                </mat-form-field>
+                <mat-form-field fxFlex="50%">
+                  <input matInput name="subProject" placeholder="Sub Project">
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+                 <mat-form-field fxFlex="50%">
+                  <input matInput name="task" placeholder="Task">
+                </mat-form-field>
+                <mat-form-field fxFlex="50%">
+                  <input matInput name="user" placeholder="User">
+                </mat-form-field>
+             </div>
+             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+                <mat-form-field fxFlex="50%">
+                  <input matInput name="date" [matDatepicker]="date" placeholder="Date">
+                  <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                  <mat-datepicker #date></mat-datepicker>
+                </mat-form-field> 
+             </div>
+              <div class="text-right">
+                <button mat-raised-button class="mat-accent compose-dialog-button" aria-label="NewTask">
+                  Save
+                </button>
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- / Old Search Filter -->
+      
+      <!-- <app-search-filter></app-search-filter> -->
+
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg" [ngClass]="{'current-todo-selected':currentTimesheet}">
+
+        <!-- CONTENT TOOLBAR !-->
+        <div class="toolbar px-24 py-8">
+
+          <div *ngIf="currentTimesheet"  fxFlex fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <button mat-icon-button (click)="deSelectCurrentTimesheet()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="space-between start">
+
+              <span class="logo-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <span *ngIf="selectedTask?.name">Timesheets For
+                  <small class="accent-400-fg">{{ selectedTask?.name }}</small>
+                </span>
+                <span *ngIf="!selectedTask">Timesheets</span>
+              </span>
+            </div>
+
+            <button _ngcontent-c60="" color="accent" mat-stroked-button="" class="mat-stroked-button mat-accent"  *ngIf="selectedTask?.name" matTooltip="Add Timesheet" (click)="showAddTimesheet()">
+              <span class="mat-button-wrapper"><mat-icon>add</mat-icon></span>
+              <div class="mat-button-ripple mat-ripple" matripple="">  
+              </div>
+              <div class="mat-button-focus-overlay"></div>
+            </button>
+          </div>
+        </div>
+       <!--/ CONTENT TOOLBAR -->
+        <!-- CONTENT !-->
+        <div class="content" fxFlexAlign="row">
+          <app-project-task-timesheets-list fusePerfectScrollbar fxFlex></app-project-task-timesheets-list>  
+          <app-project-task-timesheets-details fusePerfectScrollbar fxFlex></app-project-task-timesheets-details>           
+        </div>
+      <!--/CONTENT -->
+
+      </div>
+      <!-- / CONTENT CARD -->
+ 
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+
+</div>

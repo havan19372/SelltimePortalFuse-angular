@@ -1,0 +1,101 @@
+
+
+
+<div id="mail" class="page-layout carded left-sidenav" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <mat-sidenav-container>
+
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" mode="side" opened="true" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+     
+      <div fxLayout="column" fxLayoutAlign="space-between start" class="header p-24 pb-4" ngClass.gt-md="white-fg">
+
+        <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+          <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+          <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Time Sheet Report</span>
+        </div>
+      </div>
+      <!-- / SIDENAV HEADER -->
+      
+      <!-- SIDENAV CONTENT -->
+      <div class="content" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*',params:{y:'50px'}}">
+      
+ 
+      
+        <div class="nav">
+      
+          <div class="h3 px-16 py-16">
+            Total= {{hourSum}} hour
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="h-400">
+          <ngx-charts-pie-chart *fuseIfOnDom [scheme]="chart.scheme" [results]="chartDate" [legend]="chart.legend"
+            [explodeSlices]="chart.explodeSlices" [labels]="chart.labels" [doughnut]="chart.doughnut" [gradient]="chart.gradient"
+            (select)="chart.onSelect($event)">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+      
+      </div>
+ 
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+    <!-- CENTER -->
+    <div class="center">
+
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="search-wrapper" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+  
+          <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav"
+            fxHide.gt-md aria-label="Toggle Sidenav">
+            <mat-icon>menu</mat-icon>
+          </button>
+  
+          <div class="search mat-white-bg" flex fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+            <span class="logo-text h1" fxFlex *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Time
+              Sheet Report</span>
+  
+            <mat-icon (click)="isOpenSearch()" class="cursor-pointer" matTooltip="Show Task Filter">arrow_downward</mat-icon>
+            <!-- <mat-icon (click)="clearTaskFilter()" *ngIf="isFiltered" class="cursor-pointer" matTooltip="Clear Filter">clear</mat-icon> -->
+            <mat-slide-toggle [(ngModel)]="notDone" (change)="onNotDoneChange()">Not Done</mat-slide-toggle>
+  
+            <div class="toolbar-separator"></div>
+            <!-- <mat-slide-toggle [(ngModel)]="isMyTask" (change)="onMyTaskChange()">My Task</mat-slide-toggle> -->
+  
+          </div> 
+  
+          <div class="collapsePopup" *ngIf="!isCollapsed">
+            <app-task-filter (onTaskFilter)="filterTimeSheet($event)"></app-task-filter>
+          </div>
+        </div>
+  
+      </div>
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg">
+
+ 
+        <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"></mat-progress-bar>
+        <app-time-report-table [timeSheets]="timeSheets" fusePerfectScrollbar></app-time-report-table>
+  
+
+      </div>
+      <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+
+</div>
+
+
+
+ 

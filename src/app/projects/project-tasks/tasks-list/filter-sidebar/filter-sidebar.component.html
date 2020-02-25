@@ -1,0 +1,49 @@
+<form [formGroup]="taskFilterForm" class="product w-100-p" fxLayout="column" fxFlex>
+
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+
+    <mat-form-field fxFlex="33%" class="w-100-p">
+      <input matInput name="name" placeholder="Task Title" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field fxFlex="33%" class="w-100-p">
+      <mat-select placeholder="Sub Project " formControlName="subProjectId">
+        <mat-option *ngFor="let project of projects" [value]="project.value">
+          {{project.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="33%" class="w-100-p">
+      <input matInput name="refNum" placeholder="Ref #" formControlName="refNum">
+    </mat-form-field>
+
+  </div>
+
+
+  <div fxLayout="row wrap" ffxLayoutAlign="space-between start" fxLayoutWrap>
+
+    <mat-form-field fxFlex="33%" class="w-100-p">
+      <input matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="33%" class="w-100-p">
+      <input matInput [matDatepicker]="completeDate" placeholder="Complete Date" formControlName="completeDate">
+      <mat-datepicker-toggle matSuffix [for]="completeDate"></mat-datepicker-toggle>
+      <mat-datepicker #completeDate></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+
+  <div class="pt-24" fxLayout="row" fxLayoutAlign="end center" fxLayoutWrap>
+
+    <button class="mr-8" mat-button (click)="resetFilter()">Reset</button>
+
+    <button class="mr-8" mat-raised-button color="accent" (click)="applyFilter()">
+      Search
+    </button>
+
+  </div>
+</form>

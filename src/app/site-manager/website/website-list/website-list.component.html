@@ -1,0 +1,160 @@
+<div id="websites" class="page-layout simple left-sidenav ">
+
+  <!-- HEADER -->
+  <div class="header mat-accent-bg p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+    <!-- APP TITLE -->
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <div class="logo" fxLayout="row wrap" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">airplay</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Websites</span>
+      </div>
+
+    </div>
+    <!-- / APP TITLE -->
+
+    <!-- SEARCH -->
+    <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+      <label for="search" class="mr-8">
+        <mat-icon>search</mat-icon>
+      </label>
+      <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+        <input matInput [formControl]="searchInput" id="search" placeholder="Search for anything">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="content p-24">
+
+    <div fxLayout="column" fxLayoutAlign="center">
+
+      <div class="websites" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="websites">
+
+        <div class="website" *ngFor="let website of websites" fxFlex="100" >
+
+          <div class="website-content" fxLayout="column">
+
+            <div class="header web-bg" fxLayout="row wrap" fxLayoutAlign="center center">
+
+              <div class="category" fxFlex>
+               #{{website.id}}  Name: {{website.name}}
+              </div>
+
+              <div class="length" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="2px">
+                      <mat-icon class="length-icon s-20">access_time</mat-icon>
+                      <div class="min">{{website.publishDate | date : 'dd/MM/yyyy' }} </div> 
+                  <!-- <div>
+                      |  Theme: {{ website.themeText }}
+                  </div> -->
+        
+                
+              </div>
+            </div>
+
+<div class="bordered" fusePerfectScrollbar>
+            <table class="simple clickable " *ngIf="website.pages.length" >
+              <thead>
+                <tr>
+                  <th color="accent" >
+                  <span [matBadge]="website.pageCount"  matBadgeOverlap="false" matBadgeColor="accent">
+                  Pages
+                </span>
+                  </th>
+                
+                <th>
+                    <span class="text-center">
+                    Menu-Order-Num
+                  </span>
+                </th>
+                  <th class="text-center">
+                    <span>
+                        showOnMenu
+                    </span>
+                  </th>
+                  <th class="text-center">
+                      <span>
+                          Title
+                      </span>
+                  </th>
+                  <th class="text-center">
+                      <mat-icon color="primary" class="mat-18">
+                        settings</mat-icon>
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let page of website.pages | sort">
+                  <td style="width: 40%;">{{page.name}}</td>
+               
+                  <td class="text-center" class="text-center">
+                    {{page.menuOrderNum}}
+                  </td>
+                  <td class="text-center" class="text-center">
+                      {{page.showOnMenu}}
+                  </td>
+                  <td class="text-center" class="text-center">
+                        {{page.title}}
+                  </td>
+                  <td class="text-center" style="width: 20%;">
+                      <button mat-icon-button matTooltip="New Content" (click)="addContent(page.id)">
+                        <mat-icon color="accent" aria-label="New Content">add</mat-icon>
+                      </button>
+                      <button mat-icon-button matTooltip="View Contents" (click)="viewContent(page.id)">
+                        <mat-icon color="primary" aria-label="View Contents">assignment</mat-icon>
+                      </button>
+                      <button mat-icon-button matTooltip="Edit Page" (click)="editPage(page.id,website.id)">
+                        <mat-icon color="accent" aria-label="Edit Page">edit</mat-icon>
+                      </button>
+                       <button mat-icon-button matTooltip="Delete Page" (click)="deletePage(page.id,website)">
+                        <mat-icon class="red-500-fg" aria-label="Delete Page">delete</mat-icon>
+                      </button>
+                    </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+            <div class="hint-text" *ngIf="!website.pages.length" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+              <mat-icon class="s-64 mb-8 select-message-icon" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
+                email
+              </mat-icon>
+              <span class="select-message-text " *fuseIfOnDom [@animate]="{value:'*',params:{delay:'400ms'}}">
+                <span>No pages</span>
+              </span>
+            </div>
+       </div>
+
+            <div class="footer" fxLayout="row wrap" fxLayoutAlign="space-between center">
+              <button mat-button color="accent" (click)="newWebsite(website.id)">
+                Edit Website
+              </button>
+              <button mat-button color="primary" (click)="newPage(website)">
+                Add Page
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="no-websites" *ngIf="!websites.length">
+          No Websites found!
+        </div>
+
+      </div>
+
+      <div class="websites" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="!websites">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<button mat-fab class="mat-accent-bg" id="add-website-button" matTooltip="New Website" (click)="newWebsite(null)" aria-label="add website"
+  *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+  <mat-icon>add</mat-icon>
+</button>

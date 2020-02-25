@@ -1,0 +1,15 @@
+<div *ngIf="timesheets.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <span class="no-todos-text  hint-text">There are no timesheets!</span>
+</div>
+
+  <div class="todo-list"  *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+  <app-timesheets-task-list-item class="todo-list-item has-handle"
+                       *ngFor="let timesheet of timesheets" [timesheet]="timesheet"
+                       (click)="readTimesheet(timesheet.id)"
+                       [ngClass]="{'current-todo':timesheet?.id == currentTimesheet?.id}"
+                       matRipple
+                       [@animate]="{value:'*',params:{y:'100%'}}">
+  </app-timesheets-task-list-item>
+  
+</div>

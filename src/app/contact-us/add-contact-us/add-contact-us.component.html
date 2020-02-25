@@ -1,0 +1,123 @@
+<div id="product" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/contact-us'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <!-- <div class="product-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <img *ngIf="product.attachments[0]" [src]="ImageUrl+product.attachments[0].url">
+            <img *ngIf="!product.attachments[0]" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+          </div> -->
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+
+          <div class="h2">
+            New Contact
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Contact Details</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="end end" fxLayoutWrap fxLayoutGap="10px">
+
+        <button (click)="onCancelClick()" mat-raised-button class="save-product-button mat-white-bg mt-4 mt-sm-0">
+          <span>CANCEL</span>
+        </button>
+        <button type="button" (click)="onSubmitForm()" mat-raised-button class="save-product-button mat-blue-bg mt-4 mt-sm-0">
+          <span>SAVE</span>
+        </button>
+      </div>
+    </div>
+    <!-- / HEADER -->
+
+
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+
+        <form name="contactUsForm" [formGroup]="contactUsForm" class="product w-100-p" fxLayout="column" fxFlex (ngSubmit)="onSubmitForm()">
+
+          <mat-tab-group>
+
+            <mat-tab label="Basic Info">
+
+              <div class="tab-content p-24" fusePerfectScrollbar>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="name" formControlName="name" placeholder="Name *">
+                    <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                      <span *ngIf="name.errors.required" class="help-block text-danger">Name is required</span>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="surname" formControlName="surname" placeholder="Surname *">
+                  </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+                  <mat-form-field fxFlex="25%" class="w-100-p">
+                    <input matInput name="tel" formControlName="tel" placeholder="Telephone *">
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="25%" class="w-100-p">
+                    <input matInput name="mobile" formControlName="mobile" placeholder="Mobile *" type="number">
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="email" formControlName="email" placeholder="Email *">
+                    <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                      <span *ngIf="email.errors.required" class="help-block text-danger">Email is required</span>
+                    </mat-error>
+                  </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+
+                  <mat-form-field fxFlex class="w-100-p">
+                    <textarea matInput name="notes" formControlName="notes" placeholder="Notes *" rows="5"></textarea>
+                  </mat-form-field>
+
+                </div>
+
+
+              </div>
+
+            </mat-tab>
+
+          </mat-tab-group>
+
+        </form>
+
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+
+</div>

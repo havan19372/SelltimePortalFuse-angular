@@ -1,0 +1,84 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+      <div fxFlex fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">
+                {{dialogTitle | htmlToPlaintext | slice:0:40}}{{dialogTitle.length > 40 ? '... )' : ''}}
+            </span>
+        <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+  
+    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+  
+      <form name="commentForm" [formGroup]="commentForm">
+        <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+  
+          <mat-form-field fxFlex="100%" class="w-100-p">
+            <textarea matInput name="notes" placeholder="Note ...." formControlName="comment" rows="2">
+              </textarea>
+          </mat-form-field>
+        </div>
+  
+        <div class="attachment-list">
+            
+             
+            <h3><span >
+             Attachments</span></h3>
+  
+          <div class="attachment" fxLayout="row wrap" fxLayoutAlign="space-between center" *ngFor="let image of comment.attachments">
+  
+            <div>
+              <a [href]="imageUrl + image.url" target="_blank" mat-icon-button aria-label="open attachment" color="accent">
+                  {{ image.sourceFileName }}
+              </a>
+              <!-- <span class="size">(12 Kb)</span> -->
+            </div>
+  
+            <button mat-icon-button aria-label="Delete attachment" (click)="deleteAttach(image)">
+              <mat-icon class="s-16">close</mat-icon>
+            </button>
+             
+             
+  
+          </div>
+  
+        </div>
+  
+      </form>
+    </div>
+  
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  
+      <div>
+  
+        <button mat-raised-button (click)="dialogRef.close(['new',commentForm])" *ngIf="action === 'new' " class="save-button mat-accent"
+          [disabled]="commentForm.invalid" aria-label="SAVE">
+          Save
+        </button>
+  
+        <button mat-raised-button (click)="dialogRef.close(['edit',commentForm])" *ngIf="action === 'edit' " class="save-button mat-accent"
+          [disabled]="commentForm.invalid" aria-label="SAVE">
+          Edit
+        </button>
+        <input hidden type="file" (change)="uploadFile($event)" multiple #fileInput />
+  
+  
+        <input hidden type="file" (change)="uploadFile($event)" multiple #fileInput />
+        <button mat-icon-button matTooltip="Attach a file" (click)="fileInput.click()" aria-label="Add file">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+  
+  
+      </div>
+  
+      <!-- <button mat-button class="mat-icon-button" (click)="dialogRef.close(['delete',timeSheetForm])" aria-label="Delete"
+        matTooltip="Delete">
+        <mat-icon>delete</mat-icon>
+      </button> -->
+  
+    </div>
+  
+  </div>
+  

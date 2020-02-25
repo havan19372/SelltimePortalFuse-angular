@@ -1,0 +1,18 @@
+<!--
+<h3>Summernote editor</h3>
+<div>
+  <button (click)="enableEditor()" [disabled]="!editorDisabled">Enable</button>
+  <button (click)="disableEditor()" [disabled]="editorDisabled">Disable</button>
+</div>
+-->
+<div [formGroup]="form" #f="ngForm">
+  <div formControlName="html" [ngxSummernote]="config" [ngxSummernoteDisabled]="editorDisabled" (blur)="onBlur()">
+  </div>
+</div>
+<!--
+<h3>HTML</h3>
+<div [ngxSummernoteView]="form.get('html').value"></div>
+<h3>Code</h3>
+<pre>{{form.get('html').value}}</pre>
+-->
+

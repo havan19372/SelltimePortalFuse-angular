@@ -1,0 +1,53 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="pageForm">
+      <input formControlName="id" hidden>
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+        <mat-form-field fxFlex class="w-100-p">
+
+          <mat-select placeholder="Parent" formControlName="parentId" name="parentId">
+            <mat-option class="red-500-fg" (click)="pageForm.get('parentId').reset()">Clear Selection</mat-option>
+            <mat-option *ngFor="let lookup of lookupsData" [value]="lookup.value">
+              {{lookup.text}}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+
+        <mat-form-field fxFlex>
+          <input name="text" formControlName="text" placeholder="Text" matInput required>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="showForMembers" style="margin-top:25px">Public</mat-checkbox>
+        <!-- <mat-select placeholder="Parent Lookup" formControlName="masterCode" name="masterCode" required>
+            <mat-option *ngFor="let lookup of lookupsData" [value]="lookup.code">
+              {{lookup.text}}
+            </mat-option>
+          </mat-select>  -->
+      </div>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <button mat-raised-button (click)="dialogRef.close(pageForm)" class="save-button mat-accent" [disabled]="pageForm.invalid"
+      aria-label="SAVE">
+      <span *ngIf="action === 'edit'"> Save </span> <span *ngIf="action !== 'edit'"> ADD </span>
+    </button>
+
+  </div>
+</div>

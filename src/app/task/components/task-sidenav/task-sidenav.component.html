@@ -1,0 +1,40 @@
+<!-- SIDENAV HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start" class="header p-24 pb-4" [ngClass]="headerBg" ngClass.gt-md="white-fg">
+
+  <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+    <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tasks</span>
+  </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT -->
+<div class="content" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*',params:{y:'50px'}}">
+
+  <div class="p-24">
+    <button mat-raised-button fxFlex class="mat-accent compose-dialog-button" (click)="newTask()" aria-label="New Task">
+      New Task
+    </button>
+  </div>
+
+  <div class="nav">
+
+    <div class="nav-subheader text-uppercase ">Tasks</div>
+<div *ngIf="tasks.length">
+
+    <div class="nav-item" *ngFor="let task of tasks">
+      <a class="nav-link"  matRipple (click)="selectTask(task)" [ngClass]="{'active': task.id === selectedTask?.id}">
+        <span class="task-id">{{task.id}}</span>
+        <!-- <mat-icon class="nav-link-icon">label</mat-icon> -->
+        <span>
+          {{task.name | htmlToPlaintext | slice:0:35}}{{task.name.length > 35 ? '..' : ''}}
+
+        </span>
+      </a>
+    </div>
+    
+  </div>
+</div>
+
+</div>
+<!-- / SIDENAV CONTENT -->

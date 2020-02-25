@@ -1,0 +1,41 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center">
+
+    <!-- <mat-checkbox [(ngModel)]="selected" (ngModelChange)="onSelectedChange()"
+                  class="mr-16" fxFlex="0 1 auto" (click)="$event.stopPropagation()">
+    </mat-checkbox> -->
+
+    <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex fxFlexLayout="column">
+
+            <div class="title">
+                {{timesheet.creator}}
+            </div>
+
+            <div class="notes">
+                {{timesheet.notes}}
+            </div>
+
+
+        </div>
+
+        <div class="actions" fxLayout="row wrap" fxLayoutAlign="start center">
+
+            <button mat-button color="accent" class="mat-icon-button" (click)="editTimesheet($event)"
+                    aria-label="Toggle important" fxHide.xs>
+                <mat-icon>edit</mat-icon>
+
+            </button>
+
+            <button mat-button color="warn" class="mat-icon-button" (click)="deleteTimesheet($event)"
+                    aria-label="Toggle star" fxHide.xs>
+                <mat-icon>delete</mat-icon>
+            </button>
+
+
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,51 @@
+<mat-table class="projects-table" #table [dataSource]="dataSource" matSortActive="startDate" matSortStart="asc" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="name">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Project Name</mat-header-cell>
+    <mat-cell *cdkCellDef="let Project">
+      <p class="text-truncate">{{Project.name}}</p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="startDate">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+    <mat-cell *cdkCellDef="let Project">
+      <p>{{Project.startDate | date : 'dd MMM y' }}</p>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="completeDate">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>End Date</mat-header-cell>
+    <mat-cell *cdkCellDef="let Project">
+      <p>{{Project.completeDate | date : 'dd MMM y' }}</p>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="options">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-xs>
+      <mat-icon class="mat-18">equalizer</mat-icon>
+    </mat-header-cell>
+    <mat-cell *cdkCellDef="let Projects" fxHide fxShow.gt-xs>
+      <button mat-icon-button color="warn">
+        <mat-icon class="accent-500-fg" matTooltip="Show Sub Projects" (click)="showSubProjects(Projects.id)">filter_none</mat-icon>
+      </button>
+
+      <button mat-icon-button color="warn">
+        <mat-icon class="accent-500-fg" matTooltip="Edit Projects" (click)="newProject(Projects)">edit</mat-icon>
+      </button>
+
+      <button mat-icon-button color="warn">
+        <mat-icon (click)="deleteProject(Projects)" matTooltip="Delete Project" class="warn-500-fg">delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *cdkRowDef="let Projects; columns: displayedColumns;" class="project" matRipple>
+  </mat-row>
+</mat-table>
+
+<mat-paginator [length]="ProjectsLength" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10">
+</mat-paginator>

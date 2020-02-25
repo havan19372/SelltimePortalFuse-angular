@@ -1,0 +1,119 @@
+<div id="user" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button (click)="back()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{user.firstName}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New User
+          </div>
+          <div class="subtitle secondary-text">
+            <span>User Detail</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+
+      <button mat-raised-button class="save-product-button mat-white-bg mt-16 mt-sm-0" [disabled]="userForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addUser()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="save-product-button mat-white-bg mt-16 mt-sm-0" [disabled]="userForm.invalid || userForm.pristine"
+        *ngIf="pageType ==='edit'" (click)="saveUser()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <form name="userForm" [formGroup]="userForm" class="user w-100-p" fxLayout="column" fxFlex>
+
+          <mat-tab-group>
+
+            <mat-tab label="User Info">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+
+                <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="firstName" formControlName="firstName" placeholder="First Name" >
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="lastName" formControlName="lastName" placeholder="Last Name" >
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="userName" formControlName="userName" placeholder="User Name" >
+                    <mat-error *ngIf="userForm.get('userName').hasError('required')">
+                      userName is required!
+                    </mat-error>
+                    <mat-error *ngIf="userForm.get('userName').hasError('emailTaken')">
+                      UserName is not available
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p">
+                    <input matInput name="email" formControlName="email" placeholder="User Email" >
+                    <mat-error *ngIf="userForm.get('email').hasError('required')">
+                      Email is required!
+                    </mat-error>
+                    <mat-error *ngIf="userForm.get('email').hasError('emailTaken')">
+                      Email is not available
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p"  >
+                    <input matInput  type="password"  name="password" formControlName="password" placeholder="User Password" >
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50%" class="w-100-p"  >
+                    <input matInput   type="password"  name="passwordConfirm" formControlName="passwordConfirm" placeholder="Confirm Password" >
+                    <mat-error *ngIf="userForm.get('passwordConfirm').hasError('required')">
+                      Password confirmation is required
+                    </mat-error>
+                    <mat-error *ngIf="userForm.get('passwordConfirm').hasError('passwordsNotMatch')">
+                      Passwords must match
+                    </mat-error>
+                  </mat-form-field>
+
+                </div>
+              </div>
+
+            </mat-tab>
+
+          </mat-tab-group>
+        </form>
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

@@ -1,0 +1,78 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="pageForm">
+      <input formControlName="id" hidden>
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+
+        <mat-form-field fxFlex>
+          <input name="name" formControlName="name" placeholder="System Name" matInput required>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <input name="title" formControlName="title" placeholder="Title" matInput required>
+        </mat-form-field>
+
+
+
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+        
+          <mat-form-field fxFlex>
+              <input name="heading" formControlName="heading" placeholder="Heading" matInput >
+            </mat-form-field>
+        <mat-form-field fxFlex class="w-100-p">
+          <mat-select placeholder="Page Template" formControlName="templateId" name="templateId">
+            <mat-option *ngFor="let template of pageTemplates" [value]="template.value">
+              {{template.text}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
+          <input name="title" type="number" formControlName="menuOrderNum" placeholder="Menu Order Num" matInput>
+        </mat-form-field>
+
+        <mat-slide-toggle class="pt-8" fxFlex color="accent" formControlName="showOnMenu">
+          Show on Menu
+        </mat-slide-toggle>
+
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+
+        <mat-form-field fxFlex>
+          <textarea matInput name="meta" formControlName="meta" placeholder="Meta" rows="5"></textarea>
+        </mat-form-field>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <button *ngIf="action ==='edit'" mat-button class="mat-icon-button" (click)="dialogRef.close(['delete',pageForm])"
+      aria-label="Delete" matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+    <button mat-raised-button (click)="dialogRef.close(pageForm)" class="save-button mat-accent" [disabled]="pageForm.invalid"
+      aria-label="SAVE">
+      SAVE
+    </button>
+
+  </div>
+</div>

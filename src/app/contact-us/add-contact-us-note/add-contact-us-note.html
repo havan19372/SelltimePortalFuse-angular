@@ -1,0 +1,47 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+      <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">Notes</span>
+        <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-tab-group>
+        <mat-tab label="List of Notes">
+            <ng-template mat-tab-label>
+                List of Notes ({{notes.length}})
+            </ng-template>
+            <ng-template matTabContent>
+                <mat-list *ngIf="notes.length">
+                    <mat-list-item *ngFor="let note of notes">
+                        <p> <mat-icon matListIcon>account_box</mat-icon> {{note.creator}} </p>
+                        <p matLine>
+                            <span> {{note.note}} </span>
+                        </p>
+                        <p>{{note.createDate | date : 'dd/mm/yyyy hh:mm a'}}</p>
+                    </mat-list-item>
+                </mat-list>
+                <div *ngIf="!notes.length"> No Notes </div>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="New Note">
+            <ng-template matTabContent>
+                <form #f="ngForm" (ngSubmit)="f.form.valid && save(f.form)">
+                    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+                        <div fxLayout="row wrap" fxLayoutAlign="start start">
+                            <mat-form-field fxFlex>
+                                <textarea name="notes" placeholder="Add new Notes" rows="3" ngModel matInput required></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            
+                    <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <button mat-raised-button class="save-button mat-accent" aria-label="SAVE">SAVE</button>
+                    </div>
+                </form>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

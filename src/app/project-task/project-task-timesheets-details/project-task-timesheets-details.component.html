@@ -1,0 +1,87 @@
+<div *ngIf="!timesheet" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+  <mat-icon class="s-120 mb-12 select-todo-icon" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">check_box
+  </mat-icon>
+  <span class="hint-text mat-h1 select-todo-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'400ms'}}">Select a Timesheet
+  </span>
+</div>
+
+<div *ngIf="timesheet">
+
+  <div class="todo-header" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <div class="logo-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+      <span *ngIf="!timesheet.id">New Timesheet</span>
+      <span *ngIf="timesheet.id">Edit Timesheet</span>
+    </div>
+
+    <div class="actions" fxLayout="row wrap" fxLayoutAlign="start center">
+      <button mat-raised-button class="mat-accent" [disabled]="timesheetForm.invalid">
+        <span *ngIf="!timesheet.id">Save</span>
+        <span *ngIf="timesheet.id">Update</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="todo-content">
+    <form #timeSheetForm="ngForm" [formGroup]="timesheetForm" (submit)="addTimesheet()">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">          
+          <mat-form-field>
+            <mat-select [compareWith]="compareProjects" placeholder="Project" [(ngModel)] = "selected2Project" formControlName="projectId">
+              <mat-option *ngFor="let item of projectArray" [value]="item">
+               {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+         <mat-form-field fxFlex="33%" class="w-100-p">
+           <mat-select [compareWith]="compareSubProject" placeholder="Sub Project " formControlName="projectSubId" [(ngModel)]="selected2SubProject">
+             <mat-option  *ngFor="let item of subProjectArray" [value]="item">
+                {{item.name}}
+              </mat-option>
+           </mat-select>
+         </mat-form-field>
+         <mat-form-field fxFlex="33%" class="w-100-p">
+            <mat-select [compareWith]="compareUser" placeholder="User Name " formControlName="assignId" [(ngModel)]="selected2User">
+              <mat-option  *ngFor="let item of userArray" [value]="item">
+                 {{item.userName}}
+               </mat-option>
+            </mat-select>
+          </mat-form-field>
+         <!--populate-->
+       </div>
+       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+        <mat-form-field>
+          <input matInput [ngxTimepicker]="picker" [(ngModel)]="current_time" formControlName="start_time" placeholder="Start Time"  [(ngModel)]="startTimeEdit">
+          <ngx-material-timepicker #picker></ngx-material-timepicker>
+        </mat-form-field>
+        <mat-form-field fxFlex="45%">
+          <input matInput name="startDate" formControlName="startDate" [matDatepicker]="startDate" placeholder="Start Date" [(ngModel)]="planModel.start_time">
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+       </div>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between start">
+        <mat-form-field  fxFlex="45%">
+          <input matInput name="completeDate" formControlName="completeDate" [matDatepicker]="completeDate" placeholder="End Date">
+          <mat-datepicker-toggle matSuffix [for]="completeDate"></mat-datepicker-toggle>
+          <mat-datepicker #completeDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [ngxTimepicker]="picker2" formControlName="endTime" placeholder="End Time"  [(ngModel)]="endTimeEdit">
+          <ngx-material-timepicker #picker2></ngx-material-timepicker>
+        </mat-form-field>
+      </div>   
+      <mat-form-field fxFill>
+        <input matInput  formControlName="hours" [(ngModel)]="defaultSettingModel.defaultHour" type="number" placeholder="Hours" required>
+      </mat-form-field>
+      <mat-form-field fxFill>
+          <input matInput formControlName="breakHours" [(ngModel)]="defaultSettingModel.defaultBreakHour" type="number" placeholder="Breakhours" required>
+        </mat-form-field>
+      <mat-form-field class="" fxFill>
+        <textarea matInput #notes name="notes" formControlName="notes" placeholder="Notes" maxlength="500">
+        </textarea>
+        <mat-hint align="end">{{notes.value.length}} / 500</mat-hint>
+      </mat-form-field>
+      
+    </form>
+  </div>
+</div>

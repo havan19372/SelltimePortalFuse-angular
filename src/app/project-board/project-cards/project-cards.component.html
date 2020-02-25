@@ -1,0 +1,45 @@
+<!-- BOARDS -->
+<div id="boards" class="mat-primary-400-bg" fxLayout="column" fxLayoutAlign="start center" fxFlex fusePerfectScrollbar>
+
+  <div class="header pt-44 pt-mat-88" fxFlex="0 0 auto" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms'}}">
+    <h1>Projects Board</h1>
+  </div>
+
+  <!-- BOARD LIST -->
+  <div class="board-list" fxFlex="0 0 auto" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+    <!-- BOARD -->
+    <div class="board-list-item" *ngFor="let project of projects" fxLayout="column" fxLayoutAlign="center center" [@animate]="{value:'*',params:{y:'100%'}}"
+      [routerLink]="['/project-board/board',project.id]">
+
+      <mat-icon class="s-64">assessment</mat-icon>
+      <div class="board-name">{{project.name}}</div>
+
+    </div>
+    <!-- / BOARD -->
+
+    <!-- NEW BOARD BUTTON -->
+    <div *ngIf="loadMoreShow" class="board-list-item add-new-board" fxLayout="column" fxLayoutAlign="center center" (click)="loadMore()"
+      [@animate]="{value:'*',params:{y:'100%'}}">
+      <mat-icon class="s-64" [@rotatedState]='state'>autorenew</mat-icon>
+      <div class="board-name">Load More</div>
+    </div>
+    <!-- / NEW BOARD BUTTON -->
+
+  </div>
+  <!-- / BOARD LIST -->
+
+  <div class="board-list" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="!((projects)?.length)">
+    <mat-spinner color="white"></mat-spinner>
+  </div>
+
+
+
+</div>
+<!-- / BOARDS -->
+
+
+<button mat-fab class="mat-accent-bg" id="add-website-button" matTooltip="New Project" (click)="newProject()" aria-label="add Project"
+  *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+  <mat-icon>add</mat-icon>
+</button>

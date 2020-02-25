@@ -1,0 +1,47 @@
+<mat-table class="projects-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="name">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *cdkCellDef="let subProject">
+      <p class="text-truncate">{{subProject.name}}</p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container cdkColumnDef="StartDate">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+    <mat-cell *cdkCellDef="let subProject">
+      <p>{{subProject.startDate | date : 'dd MMM y' }}</p>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="CompleteDate">
+    <mat-header-cell *cdkHeaderCellDef mat-sort-header>End Date</mat-header-cell>
+    <mat-cell *cdkCellDef="let subProject">
+      <p>{{subProject.completeDate | date : 'dd MMM y' }}</p>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="options" class="justify-center">
+    <mat-header-cell class="justify-center" *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>
+      <mat-icon class="mat-18">equalizer</mat-icon>
+    </mat-header-cell>
+    <mat-cell *cdkCellDef="let subProject" fxHide fxShow.gt-xs class="justify-center">
+      <button mat-icon-button color="warn">
+        <mat-icon class="accent-500-fg" matTooltip="Edit Project" (click)="newSubProject(subProject.id)" >edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn">
+        <mat-icon (click)="deleteSubProject(subProject)" matTooltip="Delete Project"  class="warn-500-fg">delete</mat-icon>       </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *cdkRowDef="let Projects; columns: displayedColumns;" class="project" matRipple>
+  </mat-row>
+
+</mat-table>
+
+<mat-paginator [length]="SubProjectsLength" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10">
+</mat-paginator>

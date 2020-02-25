@@ -1,0 +1,237 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <div fxFlex fxLayoutAlign="start center">
+        <!-- DUE DATE -->
+        <div class="due-date" fxFlex="0 1 auto">
+          <button mat-icon-button [matMenuTriggerFor]="dueDateMenu">
+            <mat-icon>today</mat-icon>
+          </button>
+
+          <mat-menu #dueDateMenu="matMenu" [overlapTrigger]="false">
+              <button mat-menu-item (click)="removeDueDate()">Remove Due Date</button>
+          </mat-menu>
+
+          <mat-form-field *ngIf="!card.startDate">
+              <input matInput [matDatepicker]="menuPicker" [(ngModel)]="card.startDate">
+              <mat-datepicker-toggle matSuffix [for]="menuPicker"></mat-datepicker-toggle>
+              <mat-datepicker #menuPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- / DUE DATE -->
+        <!-- LABELS -->
+        <div class="labels" fxFlex="0 1 auto">
+          <button mat-icon-button>
+              <mat-icon>label</mat-icon>
+          </button>
+        </div>
+        <!-- / LABELS -->
+
+        <!-- ATTACHMENT -->
+        <button mat-icon-button matTooltip="Attach a file" aria-label="Attachment">
+            <mat-icon>attachment</mat-icon>
+        </button>
+        <!-- / ATTACHMENT -->
+        <!-- OPTIONS -->
+        <div class="options " fxFlex="0 1 auto">
+
+          <button mat-icon-button class="" [matMenuTriggerFor]="optionsMenu">
+              <mat-icon>more_horiz</mat-icon>
+          </button>
+
+          <mat-menu #optionsMenu="matMenu" [overlapTrigger]="false">
+              <button mat-menu-item>
+                  Remove Card
+              </button>
+          </mat-menu>
+        </div>
+        <!-- / OPTIONS -->
+      </div>
+      <!-- CLOSE DIALOG BUTTON -->
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close Dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+      <!-- / CLOSE DIALOG BUTTON -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+    <!-- BREADCRUMB -->
+    <div class="card-breadcrumb mt-8 mb-32" fxLayout="row" fxLayoutAlign="start center">
+      <span>{{board.name}}</span>
+      <mat-icon class="s-20">chevron_right</mat-icon>
+      <span>{{list.name}}</span>
+    </div>
+    <!-- / BREADCRUMB -->
+    <div fxLayout="row" fxLayoutAlign="start center">
+
+        <!-- NAME -->
+        <div class="card-name px-24" fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Title</mat-label>
+                <input matInput [(ngModel)]="card.name" required (change)="updateCard()">
+            </mat-form-field>
+        </div>
+        <!-- / NAME -->
+
+        <!-- DUE DATE -->
+        <div class="due-date px-24 pl-0" fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Due Date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="card.startDate" (change)="updateCard()">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <!-- / DUE DATE -->
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="description px-24">
+      <mat-form-field appearance="outline" class="w-100-p">
+          <mat-label>Description</mat-label>
+          <textarea matInput [(ngModel)]="card.detail" columns="1"
+                    mat-maxlength="150" max-rows="4" (change)="updateCard()"></textarea>
+      </mat-form-field>
+    </div>
+    <!-- / DESCRIPTION -->
+    <!-- SECTIONS -->
+    <form name="commentForm" [formGroup]="commentForm">
+      <div class="sections">
+        <!-- ATTACHMENTS SECTION -->
+        <div class="attachmentsection px-24">
+
+          <div class="attachments">
+              <div class="section-header" fxLayout="row" fxLayoutAlign="start">
+                <mat-icon class="mr-8">attachment</mat-icon>
+                <span class="section-title">Attachments</span>
+              </div>
+              <div class="section-content px-24">
+                <div fxLayout="column" fxLayoutAlign="start" fxLayoutWrap fxLayout.gt-sm="row">
+                  <div class="attachment" fxFlex="33" *ngFor="let image of comment.attachments">
+                    <div fxLayout="column" fxLayoutAlign="start">
+                      <div class="attachment-preview mat-elevation-z1">
+                        <img *ngIf="checkExtensionImage(image)" (click)="openImage(image)"  [src]="imageUrl+image.url+'?h=100&mode=max&formate=png'"  class="responsive-image">
+                      </div>
+                      <div class="attachment-content mt-8" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex>
+                          <div fxLayout="row" fxLayoutAlign="start start">
+                              <span class="attachment-name">{{image.sourceFileName}}</span>
+                              <mat-icon *ngIf="card.idAttachmentCover === image.id"
+                                        class="yellow-700-fg attachment-is-cover">
+                                  star
+                              </mat-icon>
+                          </div>
+                          <span class="attachment-time">{{image.time}}</span>
+                        </div>
+                        <button mat-icon-button class="attachment-actions-button"
+                                [matMenuTriggerFor]="attachmentActionsMenu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #attachmentActionsMenu="matMenu">
+                          <button mat-menu-item (click)="deleteAttach(image)">
+                              Remove Attachment
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <input hidden type="file" (change)="uploadFile($event)" multiple #fileInput />
+                <button mat-stroked-button class="add-attachment-button" aria-label="add attachment" (click)="fileInput.click()">
+                    Add an attachment
+                </button>
+              </div>
+          </div>
+        </div>
+        <!-- / ATTACHMENTS SECTION -->
+
+        <!-- COMMENTS SECTION -->
+        <div class="commentsection px-24">
+          <div class="comments">
+
+            <div class="section-header" fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="mr-8">comment</mat-icon>
+              <span class="section-title">Comments</span>
+            </div>
+
+            <div class="section-content px-24">
+
+              <div name="cardCommentForm" class="comment new-comment" fxLayout="column" fxLayoutAlign="start">
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <img class="comment-member-avatar" src="assets/images/avatars/profile.jpg">
+
+                  <mat-form-field class="comment-field" appearance="outline" fxFlex>
+                    <mat-label>Comment</mat-label>
+                    <input matInput name="comment" formControlName="comment">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="comment" fxLayout="row" fxLayoutAlign="start center" *ngFor="let comment of comments">
+                  <!-- <img class="comment-member-avatar"
+                      [src]="board.members | getById: comment.idMember:'avatar'"> -->
+                  <img class="comment-member-avatar" src="assets/images/avatars/danielle.jpg">
+
+                  <div fxLayout="column" style="padding: 0 15px;">
+                      <!-- <div class="comment-member-name">
+                          {{board.members | getById: comment.idMember:'name'}}
+                      </div> -->
+                      <div class="comment-bubble">{{comment.comment}}</div>
+                      <div class="comment-time secondary-text">{{comment.createDate}}</div>
+                  </div>
+                  <div fxLayout="column" fxLayoutAlign="start" fxLayoutWrap fxLayout.gt-sm="row">
+                    <div class="attachment" fxFlex="33" *ngFor="let image of comment.attachments">
+                      <div fxLayout="column" fxLayoutAlign="start">
+                        <div class="attachment-preview mat-elevation-z1">
+                          <img *ngIf="checkExtensionImage(image)" (click)="openImage(image)"  [src]="imageUrl+image.url+'?h=100&mode=max&formate=png'"  class="responsive-image">
+                        </div>
+                        <div class="attachment-content mt-8" fxLayout="row" fxLayoutAlign="start center">
+                          <div fxFlex>
+                            <div fxLayout="row" fxLayoutAlign="start start">
+                                <span class="attachment-name">{{image.sourceFileName}}</span>
+                                <mat-icon *ngIf="card.idAttachmentCover === image.id"
+                                          class="yellow-700-fg attachment-is-cover">
+                                    star
+                                </mat-icon>
+                            </div>
+                            <span class="attachment-time">{{image.time}}</span>
+                          </div>
+                          <button mat-icon-button class="attachment-actions-button"
+                                  [matMenuTriggerFor]="attachmentActionsMenu">
+                              <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #attachmentActionsMenu="matMenu">
+                            <button mat-menu-item (click)="deleteAttach(image)">
+                                Remove Attachment
+                            </button>
+                          </mat-menu>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- / COMMENTS SECTION -->
+      </div>
+    </form>
+
+    <!-- / SECTIONS -->
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-raised-button (click)="dialogRef.close(['new',commentForm])" *ngIf="action === 'new' " class="save-button mat-accent"
+        [disabled]="commentForm.invalid" aria-label="SAVE">
+        Save
+      </button>
+    </div>
+
+  </div>
+
+</div>

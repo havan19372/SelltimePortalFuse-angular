@@ -1,0 +1,270 @@
+<div id="contentCreate" class="page-layout carded fullwidth" fusePerfectScrollbar>
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <!-- CENTER -->
+  <div class="center" *ngIf="contentForm">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="['/siteManager/websites/list']">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="member-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <!-- <img *ngIf="member.logoId" [src]="imageUrl+member.logoId"> -->
+          <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{content.name}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New Content
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Content Detail</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <button mat-raised-button class=" mat-white-bg mt-16 mt-sm-0" [disabled]="contentForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addContent()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="mat-white-bg mt-16 mt-sm-0" [disabled]="contentForm.invalid || contentForm.pristine"
+        *ngIf="pageType ==='edit'" (click)="saveContent()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+      <!-- CONTENT -->
+      <div class="content">
+        <form [formGroup]="contentForm" novalidate>
+          <input formControlName="id" hidden>
+          <mat-tab-group>
+            <!--
+              <mat-tab label="SummerNote">
+              <app-summer-note></app-summer-note>
+            </mat-tab>
+            -->
+            <mat-tab label="Content">
+                <div class="tab-content p-24" fusePerfectScrollbar>
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap fxLayoutGap="10px">
+                        <mat-form-field fxFlex>
+                          <mat-select placeholder="Content Type" formControlName="contentTypeId" name="contentType" (selectionChange)="mapJSONValue($event)">
+                            <mat-option *ngFor="let type of contentTypes" [value]="type.value">
+                              {{type.text}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="contentForm.get('contentTypeId').hasError('required')">
+                            Content Type is required!
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                          <input name="title" formControlName="title" placeholder="Title" matInput (change)="onNameChange($event)">
+                        </mat-form-field>
+                      </div>
+                      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+                        <mat-form-field fxFlex>
+                          <input name="name" formControlName="name" placeholder="System Name" matInput >
+                          <mat-error *ngIf="contentForm.get('name').hasError('required')">
+                            Name is required!
+                          </mat-error>
+                        </mat-form-field>
+            
+                        <mat-form-field fxFlex>
+                          <input name="slug" formControlName="slug" placeholder="Slug" matInput>
+                        </mat-form-field>
+                        <!--
+                          <mat-form-field fxFlex>
+                          <input name="author" formControlName="author" placeholder="Author" matInput>
+                          <mat-error *ngIf="contentForm.get('author').hasError('required')">
+                            Author is required!
+                          </mat-error>
+                        </mat-form-field>
+                        -->
+                        <mat-form-field fxFlex>
+                          <mat-select name="author" formControlName="author" placeholder="Author">
+                            <mat-option *ngFor="let user of userList" [value]="user.id">
+                              {{user.name}}
+                            </mat-option>
+                          </mat-select>
+                          </mat-form-field>
+                      </div>
+                      <!--
+                       
+                      -->
+                      
+                    <!--commented for now-->
+                      <!--
+                        <div fxLayout="row wrap" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+                        <mat-form-field fxFlex>
+                          <input name="linkURL" formControlName="linkURL" placeholder="Link URL" matInput>
+                        </mat-form-field>
+                        <mat-form-field fxFlex>
+                          <input name="sortOrder" type="number" formControlName="sortOrder" placeholder="Sort Order" matInput>
+                        </mat-form-field>
+                      </div>
+                      --> 
+                    <!--commented for now-->     
+                      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+                        <mat-card class="editor-container">
+                          <mat-card-header >
+                            <mat-card-title>
+                              <span class="mat-title">Body</span>
+                            </mat-card-title>
+                          </mat-card-header>
+                          <mat-card-content class="editor-parent">  
+                            <!--<ckeditor formControlName="body" #myckeditor [config]="ckeConfig" debounce="500" (change)="onEditorChange($event)">
+                            </ckeditor>!-->
+                            <!--
+                              <app-summer-note formControlName="body" #myckeditor></app-summer-note>
+                            -->
+                            <ng-container *ngIf="!jsonEditor">
+                                <div id="wrapper" (blur)="onBlur()" [ngxSummernote]="config" formControlName="body" #myckeditor></div>
+                            </ng-container>
+                            
+                            <ng-container *ngIf="jsonEditor">
+                              <!--
+                                <textarea  
+                                  placeholder="JSON EDITOR" 
+                                  formControlName="body">
+                                </textarea>
+                              -->  
+                              <json-input  #myckeditor  formControlName="body"></json-input>
+                            </ng-container>
+                            <h1>
+                                <p *ngIf="jsonEditor">json is valid: {{contentForm.valid ? 'true' : 'false' }}</p>
+                            </h1>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+                      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutWrap>
+            
+                        <mat-card fxlayout="column" fxLayoutAlign="start start" class="mt-4">
+                          <input hidden type="file" (change)="onChange($event)" single #fileInput />
+                            <button mat-fab class="add-file-button mat-primary" (click)="fileInput.click()" aria-label="Add file">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </mat-card>
+                        <div *ngFor="let attachment of attachments">
+                          <mat-card class="img-card mt-4 ml-4" fxlayout="column" fxLayoutAlign="center center">
+                            <img class="img-logo p-4" matCardImage [src]="imageUrl+attachment.url">
+                          </mat-card>
+                          <button mat-icon-button  (click)="deleteMedia(attachment)" aria-label="Delete" matTooltip="Delete Image">
+                              <mat-icon color="primary">delete</mat-icon>
+                          </button>
+                        </div>
+                        <!--provide delete button here-->
+                        <div *ngFor="let pdf of pdfAttachments">
+                          <a href="{{imageUrl+pdf.url}}"  target="_blank">
+                            <img border="0"  src="http://wwwimages.adobe.com/content/dam/acom/en/legal/images/badges/Adobe_PDF_file_icon_32x32.png" 
+                            title=""
+                            width="90px" height="90px">
+                            <p>{{pdf.sourceFileName}}</p>
+                        </a>
+                        <button mat-icon-button  (click)="deleteMedia(pdf)" aria-label="Delete" matTooltip="Delete pdf">
+                          <mat-icon color="primary">delete</mat-icon>
+                      </button>
+                        </div>
+                      </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Publish Content">
+                <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+                    <mat-form-field fxFlex>
+                      <mat-select placeholder="Content Template" formControlName="templateId" name="templateId">
+                        <mat-option *ngFor="let temp of contentTemplates" [value]="temp.value">
+                          {{temp.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                      <mat-select placeholder="Content Section" formControlName="sectionId" name="sectionId">
+                        <mat-option *ngFor="let sec of contentSections" [value]="sec.value">
+                          {{sec.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex>
+                      <input matInput name="publishDate" formControlName="datePublished" [matDatepicker]="datePublished"
+                        placeholder="Publish Date" [(ngModel)]="planModel.start_time">
+                      <mat-datepicker-toggle matSuffix [for]="datePublished"></mat-datepicker-toggle>
+                      <mat-datepicker #datePublished></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+            </mat-tab>
+            <mat-tab label="Settings">
+          <div class="tab-content p-24" fusePerfectScrollbar>
+          <mat-card  fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" class="w-100-p p-12 mb-8">
+              <mat-card-header >
+                <mat-card-title >
+                  <span class="mat-title">Settings</span>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="w-100-p">
+                <table class="simple">
+                  <tbody formArrayName="setting" *ngFor="let setting of settings.controls;let i=index">
+                    <tr [formGroupName]="i">
+                      <td>
+                        <mat-form-field class="w-100-p">
+                          <input name="key" formControlName="key" placeholder="Key" matInput>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field class="w-100-p">
+                          <input name="value" formControlName="value" placeholder="Value" matInput>
+                        </mat-form-field>
+                      </td>
+                      <td class="text-center">
+                        <button mat-icon-button color="warn" class="pr-8 pl-8" matTooltip="Delete Record" (click)="removeSetting(i)">
+                          <mat-icon aria-label="Delete setting item">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3" class="text-right p-8">
+                        <button mat-stroked-button color="accent" class="pr-8 pl-8" matTooltip="Add Setting" (click)="addSetting()">
+                          <mat-icon aria-label="Add Setting">add</mat-icon> Setting
+                        </button>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </div>
+            </mat-tab>
+            <!--
+              <mat-tab label="Advance Content">
+                <mat-card-content class="editor-parent">  
+                    <div id="wrapper" (blur)="onBlur()" [ngxSummernote]="config" formControlName="body" #myckeditor></div>
+                  </mat-card-content>
+            </mat-tab>
+            -->
+          </mat-tab-group>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="center" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="!contentForm">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>

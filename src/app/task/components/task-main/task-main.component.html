@@ -1,0 +1,122 @@
+
+
+
+<div id="mail" class="page-layout carded left-sidenav" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <mat-sidenav-container>
+
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" mode="side" opened="true" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+      <app-task-sidenav [headerBg]=" 'mat-accent-bg' " [selectedTask]="selectedTask" [tasks]="tasks" (onAddEditTask)="AddEditTask($event)"
+                        (onSelection)="getTimeSheets($event)"></app-task-sidenav>
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+    <!-- CENTER -->
+    <div class="center">
+
+      <!-- CONTENT HEADER -->
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="search-wrapper" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+          <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <div class="search mat-white-bg"  flex fxLayout="row " fxLayoutAlign="start center">
+            <mat-icon>search</mat-icon>
+       
+            <input  [formControl]="searchInput"   placeholder="Search For Tasks" fxFlex>
+      
+            <mat-icon (click)="isOpenSearch()" class="cursor-pointer" matTooltip="Show Task Filter">arrow_downward</mat-icon>
+            <!-- <mat-icon (click)="clearTaskFilter()" *ngIf="isFiltered" class="cursor-pointer" matTooltip="Clear Filter">clear</mat-icon> -->
+            <div class="toolbar-separator"></div>
+            <button mat-button (click)="clearTaskFilter()" *ngIf="isFiltered"   matTooltip="Clear Filter">
+              <mat-icon>clear</mat-icon> Clear Filter
+            </button>
+            <div class="toolbar-separator"></div>
+            <mat-slide-toggle [(ngModel)]="isMyTask" (change)="onMyTaskChange()">My Task</mat-slide-toggle>
+            <div class="toolbar-separator  mr-8"></div>
+            |
+            <div class="toolbar-separator mr-8"></div>
+            <mat-slide-toggle [(ngModel)]="filterParams.NotDone" (change)="loadTasks()">Not Done</mat-slide-toggle>
+
+          </div>
+
+          <div class="collapsePopup" *ngIf="!isCollapsed">
+            <app-task-filter (onTaskFilter)="filterTasks($event)"></app-task-filter>
+          </div>
+        </div>
+
+      </div>
+      <!-- / CONTENT HEADER -->
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg">
+
+        <!-- CONTENT TOOLBAR -->
+        <div class="toolbar px-8 py-8">
+
+          <div class="mail-selection" fxFlex="row" fxLayoutAlign="start center">
+
+            <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+              <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+              <span *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <span *ngIf="selectedTask?.name">
+                  <span class="accent-400-fg" [style.color]='color' [style.fontSize]='size' [style.fontStyle]='fontStyle'>
+                    {{selectedTask?.name | htmlToPlaintext | slice:0:50}}{{selectedTask?.name.length > 50 ? '...' : ''}}
+                  </span>
+                  <button mat-icon-button color="accent" *ngIf="selectedTask?.name" matTooltip="Edit Task" (click)="AddEditTask(selectedTask?.id)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <!-- <mat-icon color="primary" *ngIf="selectedTask?.name" matTooltip="Edit Project" (click)="AddEditTask(selectedTask?.id)">edit</mat-icon> -->
+                </span>
+                <span *ngIf="!selectedTask?.name">Timesheets</span>
+              </span>
+            </div>
+
+            <mat-slide-toggle [(ngModel)]="notDone" (change)="onNotDoneChange()" *ngIf="selectedTask?.name&& viewMode==='timeSheetTab'">Not Done</mat-slide-toggle>
+            <div class="toolbar-separator" *ngIf="selectedTask?.name&& viewMode==='timeSheetTab'"></div>
+            <button class="pointer" *ngIf="selectedTask?.name && viewMode!=='commentsTab'" matTooltip="Comments" (click)="viewMode='commentsTab'">
+              <mat-icon>comment</mat-icon>
+            </button>
+            <button class="pointer" color="default" *ngIf="selectedTask?.name && viewMode!=='timeSheetTab'" matTooltip="Time Sheet" (click)="viewMode='timeSheetTab'">
+              <mat-icon>
+                playlist_add_check
+              </mat-icon>
+            </button>
+            <div class="toolbar-separator" *ngIf="selectedTask?.name"></div>
+            <button class="pointer" mat-icon-button color="accent" *ngIf="selectedTask?.name&& viewMode==='timeSheetTab'" matTooltip="Add Timesheet" (click)="addEditTimesheet(null,null)">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button class="pointer" mat-icon-button color="accent" *ngIf="selectedTask?.name&& viewMode==='commentsTab'" matTooltip="Add Comment" (click)="openCloseComment(null,null)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+
+        </div>
+        <!-- / CONTENT TOOLBAR -->
+        <mat-progress-bar mode="indeterminate" color="accent" *ngIf="isLoading"></mat-progress-bar>
+
+        <!-- CONTENT -->
+        <div class="content" fxLayoutAlign="row" [ngSwitch]="viewMode">
+          <app-time-sheet-list fusePerfectScrollbar fxFlex [timeSheets]="timesheets" *ngSwitchCase="'timeSheetTab'"  (onEditTimeSheet)="EditTimeSheet($event)" (onDeleteTimeSheet)="DeleteTimeSheet($event)"></app-time-sheet-list>
+            <app-comment-list fusePerfectScrollbar fxFlex [comments]="comments" *ngSwitchCase="'commentsTab'" (onEditComment)="EditComment($event)" (onDeleteComment)="deleteComment($event)"></app-comment-list>
+          <!--  <app-message-details fusePerfectScrollbar fxFlex></app-message-details> -->
+
+        </div>
+        <!-- / CONTENT -->
+
+      </div>
+      <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+
+</div>
+

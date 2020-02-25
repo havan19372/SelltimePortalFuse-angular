@@ -1,0 +1,169 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <form [formGroup]="websiteForm">
+      <input formControlName="id" hidden>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input name="name" formControlName="name" placeholder="Name" matInput>
+
+          <mat-error *ngIf="websiteForm.get('name').hasError('required')">
+            Name is required!
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+        <mat-form-field  fxLayoutWrap fxFlex="90%">
+          <input name="domainKey" formControlName="domainKey" placeholder="Domain" matInput>
+          <mat-error *ngIf="websiteForm.get('name').hasError('required')">
+            Name is required!
+          </mat-error>
+        </mat-form-field>
+        <div fxLayoutWrap fxFlex="10%">
+          <br />
+          <button class="mr-24" mat-button color="accent" matTooltip="Copy secret key" (click)="copySecetKey(website.secretKey)">
+            <mat-icon aria-label="Add Website Url">file_copy</mat-icon>
+          </button>
+        </div>
+    
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Them" formControlName="themeId" name="themeId">
+          <mat-option *ngFor="let theme of themes" [value]="theme.value">
+            {{theme.text}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input matInput name="publishDate" formControlName="publishDate" [matDatepicker]="publishDate" placeholder="Publish Date">
+          <mat-datepicker-toggle matSuffix [for]="publishDate"></mat-datepicker-toggle>
+          <mat-datepicker #publishDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <mat-form-field fxFlex>
+          <input matInput name="expiryDate" formControlName="expiryDate" [matDatepicker]="expiryDate" placeholder="Expiry Date">
+          <mat-datepicker-toggle matSuffix [for]="expiryDate"></mat-datepicker-toggle>
+          <mat-datepicker #expiryDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px" class="mat-elevation-z5">
+        <table class="simple clickable bordered">
+          <thead>
+            <tr>
+              <th color="accent">
+                <mat-form-field fxFlex>
+                  <input name="websiteUrl" [formControl]="websiteUrl" placeholder="Website Url" matInput>
+                </mat-form-field>
+              </th>
+              <th class="text-center">
+                <button mat-raised-button color="accent" matTooltip="Add Website Url" (click)="addWebsiteUrl()">
+                  <mat-icon aria-label="Add Website Url">add</mat-icon>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let url of website.websiteUrls">
+              <td>
+                {{url.url}}
+              </td>
+              <td>
+                <!-- <button mat-button color="accent" matTooltip="Copy secret key" (click)="copySecetKey(url.secretKey)">
+                  <mat-icon aria-label="Add Website Url">file_copy</mat-icon>
+                </button> -->
+
+                <button mat-button color="accent" matTooltip="Add Website Url" (click)="editWebsiteUrl(url)">
+                  <mat-icon aria-label="Add Website Url">edit</mat-icon>
+                </button>
+
+                <button mat-button color="warn" matTooltip="Delete Website Url" (click)="deleteWebsiteUrl(url)">
+                  <mat-icon aria-label="Delete Website Url">delete</mat-icon>
+                </button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px" class="mat-elevation-z5">
+        <table class="simple clickable bordered">
+          <thead>
+            <tr>
+              <th color="accent">
+                <mat-form-field >
+                  <input name="displayNameFrom" [formControl]="displayNameFrom"  placeholder="Display Name" matInput>
+                </mat-form-field>
+              </th>
+              <th color="accent">
+                <mat-form-field >
+                  <input name="emailForm" [formControl]="emailForm"  placeholder="Email" matInput>
+                </mat-form-field>
+              </th>
+              <th class="text-center">
+                <button mat-raised-button color="accent" matTooltip="Add Website Url" (click)="addNotificationItem()">
+                  <mat-icon aria-label="Add Website Url">add</mat-icon>
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let notify of website.notifications">
+              <td>
+                {{notify.displayName}}
+              </td>
+              <td>
+                {{notify.email}}
+              </td>
+              <td>
+                <!-- <button mat-button color="accent" matTooltip="Add notify item" (click)="editNotification(notify)">
+                  <mat-icon aria-label="Add notify item">edit</mat-icon>
+                </button> -->
+
+                <button mat-button color="warn" matTooltip="Delete notify item" (click)="deleteNotificationl(notify)">
+                  <mat-icon aria-label="Delete notify item">delete</mat-icon>
+                </button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <button *ngIf="action ==='edit'" mat-button class="mat-icon-button" (click)="dialogRef.close(['delete',websiteForm])" aria-label="Delete"
+      matTooltip="Delete">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+
+    <button mat-raised-button (click)="dialogRef.close(websiteForm)" class="save-button mat-accent" [disabled]="websiteForm.invalid"
+      aria-label="SAVE">
+      SAVE
+    </button>
+
+  </div>
+</div>

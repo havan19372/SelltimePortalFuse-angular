@@ -1,0 +1,40 @@
+<div class="list mat-elevation-z1" fxLayout="column">
+
+  <!-- LIST HEADER -->
+  <div class="list-header" fxFlex fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+    <div fxFlex="1 0 auto" class="list-header-name">
+      {{list.name}}
+    </div>
+
+    <div fxFlex="0 1 auto">
+
+      <button mat-icon-button class="list-header-option-button" [matMenuTriggerFor]="listMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #listMenu="matMenu">
+        <button mat-menu-item (click)="removeList(list.id)">Remove List</button>
+      </mat-menu>
+
+    </div>
+
+  </div>
+  <!-- / LIST HEADER -->
+
+  <!-- LIST CONTENT -->
+  <div class="list-content" fxLayout="column">
+    <div cdkDropList id="{{list.name}}" class="list-cards ngx-dnd-container" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="tasks" fusePerfectScrollbar #listScroll (cdkDropListDropped)="dropped($event)">
+        <app-task-card cdkDrag class="scrumboard-board-card mat-elevation-z2 ngx-dnd-item" *ngFor="let card of tasks" [card]="card" (click)="selectTask(card)">
+        </app-task-card>
+    </div>
+  </div>
+
+  <!-- NEW CARD BUTTON-->
+  <div class="list-footer">
+    <app-add-card (onCardAdd)="onCardAdd($event)">
+    </app-add-card>
+  </div>
+  <!-- / NEW CARD BUTTON-->
+
+</div>

@@ -1,0 +1,86 @@
+<div id="todo" class="page-layout carded left-sidenav" fusePerfectScrollbar *blockUI=" 'projectTimesheetListBlock' ">
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-primary-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <mat-sidenav-container>
+
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" opened="true" mode="side" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+
+      <app-main-projects-sidenav [headerBg]=" 'mat-warn-bg' " (onProjectSelection)="getTimesheets($event)"></app-main-projects-sidenav>
+
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+      <!-- CONTENT HEADER -->
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="search-wrapper mat-white-bg" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+          <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+            <mat-icon>menu</mat-icon>
+          </button>
+
+          <div class="search" flex fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon>search</mat-icon>
+            <input [formControl]="searchInput" placeholder="Search for an todo" fxFlex>
+          </div>
+        </div>
+
+      </div>
+      <!-- / CONTENT HEADER -->
+
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg" [ngClass]="{'current-todo-selected':currentTimesheet}">
+
+        <!-- CONTENT TOOLBAR -->
+        <div class="toolbar px-24 py-8">
+
+          <div *ngIf="currentTimesheet"  fxFlex fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <button mat-icon-button (click)="deSelectCurrentTimesheet()">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="space-between start">
+              <span class="logo-text" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <span *ngIf="selectedProject?.name">Timesheets For
+                  <small class="accent-400-fg">{{ selectedProject?.name }}</small>
+                </span>
+                <span *ngIf="!selectedProject">Timesheets</span>
+              </span>
+            </div>
+
+            <button _ngcontent-c60="" color="accent" mat-stroked-button="" class="mat-stroked-button mat-accent"  *ngIf="selectedProject?.name" matTooltip="Add Timesheet" (click)="showAddTimesheet()">
+              <span class="mat-button-wrapper"><mat-icon>add</mat-icon></span>
+              <div class="mat-button-ripple mat-ripple" matripple="">  
+              </div>
+              <div class="mat-button-focus-overlay"></div>
+            </button>
+
+          </div>
+
+        </div>
+        <!-- / CONTENT TOOLBAR -->
+
+        <!-- CONTENT -->
+        <div class="content" fxFlexAlign="row">
+
+          <app-project-timesheet-list fusePerfectScrollbar fxFlex></app-project-timesheet-list>
+
+          <app-project-timesheet-details fusePerfectScrollbar fxFlex></app-project-timesheet-details>
+
+        </div>
+        <!-- / CONTENT -->
+
+      </div>
+      <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+
+</div>

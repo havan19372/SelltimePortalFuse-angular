@@ -1,0 +1,102 @@
+<mat-sidenav-container>
+
+  <div id="board">
+
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-16 p-mat-24" [ngClass]="'mat-'+settings.color+'-bg'" fxLayout="column">
+
+      <div class="header-content" fxLayout="row wrap" fxLayoutAlign="space-between" fxFlex="1 0 auto" >
+
+        <!-- BOARD SELECTION BUTTON -->
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxFlexOrder="2" fxFlexOrder.gt-xs="1">
+          <button mat-raised-button class="mat-accent header-boards-button" [ngClass]="'mat-'+ settings.color +'-700-bg'" [routerLink]="['/project-board/board']"
+            aria-label="boards button">
+            <mat-icon>assessment</mat-icon>
+            <span>BOARDS</span>
+          </button>
+        </div>
+        <!-- / BOARD SELECTION BUTTON -->
+
+        <!-- BOARD NAME -->
+        <div class="header-board-name mb-8 mb-mat-0" fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="center center" fxFlex="1 0 100%" fxFlex.gt-xs="1 0 auto" fxFlexOrder="1" fxFlexOrder.gt-xs="2">
+          <mat-icon class="board-subscribe s-16">remove_red_eye</mat-icon>
+          <span>{{ project?.name }}</span>
+        </div>
+        <!-- / BOARD NAME -->
+
+        <!-- TOOLBAR -->
+        <div class="toolbar" fxLayout="row wrap" fxLayoutAlign="space-between center" fxFlexOrder="3">
+
+          <!-- BOARD SETTINGS BUTTON -->
+          <button mat-icon-button aria-label="Settings" matTooltip="Settings">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <!-- / BOARD SETTINGS BUTTON -->
+        </div>
+        <!-- / TOOLBAR -->
+
+      </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT HEADER -->
+    <div class="contentheader" fxLayout="row wrap" fxLayoutAlign="start center">
+      <div class="search-wrapper" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <div class="search mat-white-bg"  flex fxLayout="row " fxLayoutAlign="start center">
+          <mat-icon>search</mat-icon>
+
+          <input  [formControl]="searchInput"   placeholder="Search For Tasks" fxFlex>
+
+          <mat-icon (click)="isOpenSearch()" class="cursor-pointer" matTooltip="Show Task Filter">arrow_downward</mat-icon>
+          <div class="toolbar-separator"></div>
+          <button mat-button (click)="clearTaskFilter()" *ngIf="isFiltered"   matTooltip="Clear Filter">
+            <mat-icon>clear</mat-icon> Clear Filter
+          </button>
+          <div class="toolbar-separator"></div>
+          <mat-slide-toggle [(ngModel)]="isMyTask" (change)="onMyTaskChange()">My Task</mat-slide-toggle>
+          <div class="toolbar-separator  mr-8"></div>
+          |
+          <div class="toolbar-separator mr-8"></div>
+          <mat-slide-toggle [(ngModel)]="filterParams.NotDone" (change)="loadTasks()">Not Done</mat-slide-toggle>
+
+        </div>
+
+        <div class="collapsePopup" *ngIf="!isCollapsed">
+          <app-task-filter (onTaskFilter)="filterTasks($event)"></app-task-filter>
+        </div>
+      </div>
+    </div>
+    <!-- / CONTENT HEADER -->
+
+    <div fxFlex class="board-content-wrapper p-16 p-mat-24" [ngClass]="settings.color+'-100-bg'">
+
+      <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="isLoadingResults">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="!isLoadingResults">
+        <!-- BOARD -->
+        <div class="board-content ngx-dnd-container p-16 p-mat-24" fxLayout="row" ngxDroppable="list" *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+
+          <app-board-list class="scrumboard-board-list list-wrapper ngx-dnd-item" ngxDraggable *ngFor="let item of list" [list]="item"
+            [@animate]="{value:'*',params:{duration:'350ms',x:'100%'}}" [connectedTo]="StatusIds" [project]="project"></app-board-list>
+
+          <!-- NEW LIST BUTTON-->
+          <!-- <app-add-list class="new-list-wrapper" (onlistAdd)="onListAdd($event)" [@animate]="{value:'*',params:{duration:'350ms',x:'100%'}}">
+          </app-add-list> -->
+          <!-- / NEW LIST BUTTON-->
+
+        </div>
+        <!-- / BOARD -->
+      </div>
+    </div>
+    <!-- primary content -->
+  </div>
+
+</mat-sidenav-container>

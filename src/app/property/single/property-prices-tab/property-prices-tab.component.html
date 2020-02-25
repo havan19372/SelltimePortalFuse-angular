@@ -1,0 +1,200 @@
+<form name="productPricesTabForm" [formGroup]="productPricesForm" class="product w-100-p" fxLayout="column" fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="price" formControlName="price" placeholder="Price" type="number">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="33%" class="w-100-p">
+      
+            <mat-select name="priceTypeId" formControlName="priceTypeId" placeholder="Price Type">
+              <mat-option *ngFor="let prcType of priceTypes" [value]="prcType.value">
+                {{prcType.text}}
+              </mat-option>
+            </mat-select>
+      
+          </mat-form-field>
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="productUid" formControlName="productUid" placeholder="Product Uid" type="text">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="unitCount" formControlName="unitCount" placeholder="Unit Count" type="number">
+          </mat-form-field>
+      
+        </div>
+      
+        <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="taxAmount" formControlName="taxAmount" placeholder="Tax Amount" type="number">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="33%" class="w-100-p">
+      
+            <mat-select name="taxRateId" formControlName="taxRateId" placeholder="Tax Rate">
+              <mat-option *ngFor="let taxRate of taxRates" [value]="taxRate.value">
+                {{taxRate.text}}
+              </mat-option>
+            </mat-select>
+      
+          </mat-form-field>
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="unitPrice" formControlName="unitPrice" placeholder="Unit Price" type="number">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="buyPrice" formControlName="buyPrice" placeholder="Buy Price" type="number">
+          </mat-form-field>
+      
+        </div>
+      
+        <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+      
+          <mat-form-field fxFlex class="w-100-p">
+            <input matInput name="markupPercent" formControlName="markupPercent" placeholder="Markup Percent" type="number">
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="33%" class="w-100-p">
+      
+            <mat-select name="packageId" formControlName="packageId" placeholder="Package">
+              <mat-option *ngFor="let pack of pricePackages" [value]="pack.value">
+                {{pack.text}}
+              </mat-option>
+            </mat-select>
+      
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="33%" class="w-100-p">
+      
+            <mat-select name="memberLevelId" formControlName="memberLevelId" placeholder="Member Level">
+              <mat-option *ngFor="let memberlvl of memberLevels" [value]="memberlvl.value">
+                {{memberlvl.text}}
+              </mat-option>
+            </mat-select>
+      
+          </mat-form-field>
+      
+          <mat-form-field fxFlex="33%" class="w-100-p">
+      
+            <mat-select name="countryId" formControlName="countryId" placeholder="Country">
+              <mat-option *ngFor="let cntry of Countries" [value]="cntry.value">
+                {{cntry.text}}
+              </mat-option>
+            </mat-select>
+      
+          </mat-form-field>
+      
+        </div>
+      
+        <div fxLayout="row wrap" fxLayoutAlign="end end" fxLayoutGap="10px">
+      
+          <button mat-raised-button color="accent" (click)="addPrice()">
+            Add Price
+          </button>
+      
+        </div>
+      
+        <table class="simple clickable bordered" *ngIf="product.prices.length">
+          <thead>
+            <tr>
+              <th class="text-center">
+                Price
+              </th>
+              <th class="text-center">
+                Price Type
+              </th>
+              <!-- <th class="text-center">
+                Product Uid
+              </th> -->
+              <th class="text-center">
+                Unit Count
+              </th>
+              <th class="text-center">
+                Tax Amount
+              </th>
+              <th class="text-center">
+                Unit Price
+              </th>
+              <!-- <th class="text-center">
+                Tax Included
+              </th> -->
+              <th class="text-center">
+                Tax Rate
+              </th>
+              <!-- <th class="text-center">
+                Package
+              </th>
+              <th class="text-center">
+                Member Level
+              </th> -->
+              <th class="text-center">
+                Buy Price
+              </th>
+              <!-- <th class="text-center">
+                Markup Percent
+              </th> -->
+              <th class="text-center">
+                Country
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let price of product.prices">
+              <td class="text-center">
+                {{ price.price }}
+              </td>
+              <td class="text-center">
+                {{ price.typeId }}
+              </td>
+              <!-- <td class="text-center">
+                {{ price.productUid }}
+              </td> -->
+              <td class="text-center">
+                {{ price.unitCount }}
+              </td>
+              <td class="text-center">
+                {{ price.taxAmount }}
+              </td>
+              <td class="text-center">
+                {{ price.unitPrice }}
+              </td>
+              <!-- <td class="text-center">
+                {{ price.taxIncluded }}
+              </td> -->
+              <td class="text-center">
+                {{ price.taxRateId }}
+              </td>
+              <!-- <td class="text-center">
+                {{ price.packageId }}
+              </td>
+              <td class="text-center">
+                {{ price.memberLevelId }}
+              </td> -->
+              <td class="text-center">
+                {{ price.buyPrice }}
+              </td>
+              <!-- <td class="text-center">
+                {{ price.markupPercent }}
+              </td> -->
+              <td class="text-center">
+                {{ price.countryId }}
+              </td>
+              <td>
+                <button mat-button color="accent" matTooltip="Edit Price" (click)="editPrice(price)">
+                  <mat-icon aria-label="Edit Price">edit</mat-icon>
+                </button>
+      
+                <button mat-button color="warn" matTooltip="Delete Price" (click)="deletePrice(price)">
+                  <mat-icon aria-label="Delete Price">delete</mat-icon>
+                </button>
+      
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      

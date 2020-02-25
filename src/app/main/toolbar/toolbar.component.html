@@ -1,0 +1,89 @@
+<mat-toolbar class="p-0 mat-elevation-z1" *ngIf="auth.isLoggedIn()">
+
+  <mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
+
+  <div fxFlex fxFill fxLayout="row wrap" fxLayoutAlign="start center">
+
+    <div fxFlex="1 0 auto" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <button mat-icon-button class="toggle-button-navbar" *ngIf="!noNav" (click)="toggleSidebarOpened('navbar')" fxHide.gt-md>
+        <mat-icon>menu</mat-icon>
+      </button>
+
+
+      <div class="toolbar-separator" fxHide.gt-md></div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center" *ngIf="horizontalNav">
+
+        <div class="logo ml-16">
+          <img class="logo-icon" src="assets/images/logos/fuse.svg">
+        </div>
+
+      </div>
+
+      <div class="px-8 px-mat-16">
+        <fuse-shortcuts [navigation]="navigation"></fuse-shortcuts>
+      </div>
+
+    </div>
+
+    <div class="" fxFlex="0 1 auto" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+          <img class="avatar" src="assets/images/avatars/profile.jpg">
+          <span class="username text-uppercase mr-12" fxHide fxShow.gt-sm>{{token.fullName}}</span>
+          <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+        </div>
+      </button>
+
+      <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+
+        <button mat-menu-item>
+          <mat-icon>account_circle</mat-icon>
+          <span>My Profile</span>
+        </button>
+
+        <button mat-menu-item class="">
+          <mat-icon>mail</mat-icon>
+          <span>Inbox</span>
+        </button>
+
+        <button mat-menu-item class="" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+
+      </mat-menu>
+
+      <div class="toolbar-separator"></div>
+
+      <fuse-search-bar (onInput)="search($event)"></fuse-search-bar>
+
+      <div class="toolbar-separator"></div>
+
+      <button mat-button fxHide fxShow.gt-xs class="language-button" matTooltip="Change Theme" [matMenuTriggerFor]="languageMenu">
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+          <mat-icon class="mat-18">color_lens</mat-icon>
+        </div>
+      </button>
+
+      <mat-menu #languageMenu="matMenu" [overlapTrigger]="false">
+
+        <button mat-menu-item *ngFor="let theme of themes" (click)="setTheme(theme)">
+          <div fxLayout="row wrap" fxLayoutAlign="start center">
+            <span class="iso">{{theme.title}}</span>
+          </div>
+        </button>
+
+      </mat-menu>
+
+      <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
+
+      <button mat-icon-button class="mat-icon-button quick-panel-toggle-button" fuseMatSidenavToggler="quick-panel" aria-label="Toggle quick panel">
+        <mat-icon class="icon">format_list_bulleted</mat-icon>
+      </button>
+
+    </div>
+  </div>
+</mat-toolbar>

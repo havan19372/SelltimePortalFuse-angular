@@ -1,0 +1,53 @@
+<div id="BusinessCreate" class="page-layout carded fullwidth" >
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <!-- CENTER -->
+  <div class="center" >
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="['/business/list']">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="Business-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <img *ngIf="Business.logo" [src]="imageUrl+Business.logo">
+          <img *ngIf="!Business.logo" src="assets/images/ecommerce/product-image-placeholder.png">
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{Business.name}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New Business
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Business Detail</span>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button class=" mat-white-bg mt-16 mt-sm-0" [disabled]="BusinessForm.invalid" *ngIf="pageType ==='new'"
+      (click)="addBusiness(BusinessForm.getRawValue())">
+      <span>ADD</span>
+    </button>
+    <button mat-raised-button class="mat-white-bg mt-16 mt-sm-0" [disabled]="BusinessForm.invalid" *ngIf="pageType ==='edit'"
+      (click)="addBusiness(BusinessForm.getRawValue())">
+      <span>SAVE</span>
+    </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+        <app-business-create-form fxFlex  (onAddBusiness)="addBusiness($event)" [pageType]="pageType" [imageUrl]='imageUrl' (onAttachmentUpdate)="attachmentUpdate($event)" [Business]="Business" [BusinessForm]="BusinessForm"></app-business-create-form>
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

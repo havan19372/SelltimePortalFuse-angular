@@ -1,0 +1,70 @@
+<!-- SIDENAV HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start" class="header p-24 pb-4" [ngClass]="headerBg" ngClass.gt-md="white-fg">
+
+  <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-icon class="logo-icon s-32" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">check_box</mat-icon>
+    <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tasks</span>
+  </div>
+</div>
+<!-- / SIDENAV HEADER -->
+
+<!-- SIDENAV CONTENT !-->
+<div class="content" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*',params:{y:'50px'}}">
+
+  <div class="p-24">
+    <button mat-raised-button fxFlex class="mat-accent compose-dialog-button" (click)="newTask()" aria-label="NewTask">
+      New Task
+    </button>
+  </div>
+  <div class="nav" *ngIf="loader">
+    <div class="nav-subheader text-uppercase ">Tasks</div>
+    <div class="nav-item" *ngFor="let task of tasksList">
+      <a class="nav-link" matRipple (click)="selectTask(task)" [ngClass]="{'active': task.id === selectedTask?.id}">
+        <mat-icon class="nav-link-icon">label</mat-icon>
+        <span>{{task.name}}</span>
+        <button class="editBtn" mat-icon-button color="warn">
+          <mat-icon class="accent-500-fg" matTooltip="Edit Task" (click)="UpdateTask(task)">edit</mat-icon>
+        </button>
+      </a>
+      <!--
+        <button mat-button color="warn" class="mat-icon-button" (click)="deleteTask(task)"
+             aria-label="Toggle star" fxHide.xs>
+          <mat-icon>delete</mat-icon>
+        </button>
+        *ngIf="loader"
+      -->
+    </div>
+  </div>
+    
+    <div class="nav" *ngIf="!loader">
+    <div class="nav-subheader text-uppercase ">Tasks</div>
+    <div class="nav-item">
+      <a class="nav-link" matRipple (click)="selectTask(task)" [ngClass]="{'active': task.id === selectedTask?.id}">
+        <mat-icon class="nav-link-icon">label</mat-icon>
+        <span *ngIf="!taskLength">{{tasksList?.name}}</span>
+        <span *ngIf="taskLength">No task Found</span>
+        <button mat-icon-button color="warn">
+          <mat-icon *ngIf="!taskLength" class="accent-500-fg" matTooltip="Edit Task" (click)="UpdateTask(task)">edit</mat-icon>
+        </button>
+      </a>
+    </div>
+  </div>
+  <!--
+        <button mat-button color="warn" class="mat-icon-button" (click)="deleteTask(task)"
+             aria-label="Toggle star" fxHide.xs>
+          <mat-icon>delete</mat-icon>
+        </button>
+      -->
+<!--
+<div class="no-nav" *ngIf="(tasksList?.length === 0) && (taskLength==true) ">
+    No task found!
+  </div>
+!-->
+<!--
+<div class="nav" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap *ngIf="loader">
+      <mat-spinner color="accent"></mat-spinner>
+  </div>
+-->
+  
+</div>
+<!--/ SIDENAV CONTENT -->

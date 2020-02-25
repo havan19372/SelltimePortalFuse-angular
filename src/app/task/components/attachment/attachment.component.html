@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="grid">
+    <div class="cell" *ngFor="let item of attachments" >
+       <img *ngIf="checkExtensionImage(item)" (click)="openImage(item)"  [src]="imageUrl+item.url+'?h=100&mode=max&formate=png'"  class="responsive-image">
+      <div class="cell">
+          <button mat-button  (click)="openImage(item)" matTooltip="Download" target="_blank"  aria-label="open attachment" color="accent">
+
+              <i class="material-icons" color="accent">
+                  cloud_download
+                  </i>
+                  {{item.sourceFileName| htmlToPlaintext | slice:0:50}}{{item.sourceFileName.length > 50 ? '...' : ''}}
+        </button>      </div>
+    </div>
+  </div>
+</div>
+

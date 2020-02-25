@@ -1,0 +1,191 @@
+<div id="products" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+      <!-- APP TITLE -->
+      <div class="logo my-12 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">shopping_basket</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Property</span>
+      </div>
+      <!-- / APP TITLE -->
+      <!-- SEARCH -->
+      <div class="search-input-wrapper mx-12 m-md-0" fxFlex="1 0 auto" fxLayout="row wrap" fxLayoutAlign="start center">
+        <label for="search" class="mr-8">
+          <mat-icon class="secondary-text">search</mat-icon>
+        </label>
+        <mat-form-field floatPlaceholder="never" fxFlex="1 0 auto">
+          <input id="search" matInput #filter placeholder="Search">
+        </mat-form-field>
+      </div>
+      <!-- / SEARCH -->
+      <button mat-raised-button [routerLink]="'/property/new'" class="add-product-button mat-white-bg my-12 mt-sm-0">
+        <span>ADD NEW PROPERTY</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <div class="example-loading-shade " *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults" style="margin:0 auto;" mode="indeterminate"></mat-spinner>
+      </div>
+
+      <mat-table class="products-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}"
+       fusePerfectScrollbar>
+
+        <!-- ID Column -->
+        <ng-container cdkColumnDef="id">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>ID</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.id}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Image Column -->
+        <ng-container cdkColumnDef="image">
+          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <img class="product-image" *ngIf="product.attachments[0]" [alt]="product.name" [src]="imageUrl + product.attachments[0].url" />
+            <img *ngIf="!product.attachments[0]" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+          </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container cdkColumnDef="name">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Name</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.name}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- Name Column -->
+
+        <!-- Description Column -->
+        <!-- <ng-container cdkColumnDef="description">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Description</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.description || 'N/A'}}</p>
+          </mat-cell>
+        </ng-container> -->
+        <!-- Description Column -->
+
+        <!-- Description Column -->
+        <ng-container cdkColumnDef="showOnWebsite">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Show On Website</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.showOnWebsite == true ? 'Yes' : 'No'}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- Description Column -->
+
+        <!-- House Square Metre Column -->
+        <ng-container cdkColumnDef="property.houseSqMeter">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>House Square Metre</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.property.houseSqMeter}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- House Square Metre Column -->
+
+        <!-- Bathrooms Column -->
+        <ng-container cdkColumnDef="property.bathrooms">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Bathrooms</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.property.bathrooms}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- Bathrooms Column -->
+
+        <!-- Group Name Column -->
+        <ng-container cdkColumnDef="group">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.group}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- Group Name Column -->
+
+        <!-- Sub Group Name Column -->
+        <ng-container cdkColumnDef="subGroup">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Sub Group Name</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <p class="text-truncate">{{product.subGroup}}</p>
+          </mat-cell>
+        </ng-container>
+        <!-- Sub Group Name Column -->
+        
+        <ng-container cdkColumnDef="categories">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>BedRooms</mat-header-cell>
+          <mat-cell *cdkCellDef="let product">
+            <!--<mat-chip-list matPrefix name="catgs">
+              <mat-chip color="accent"  class="mat-deep-purple-bg" *ngFor="let tag of product.categories" removable="false">
+                {{tag.text}}
+              </mat-chip>
+            </mat-chip-list>!-->
+            <p class="text-truncate">{{product.property.bedrooms}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="prices">
+            <mat-header-cell *cdkHeaderCellDef mat-sort-header>Car Space</mat-header-cell>
+            <mat-cell *cdkCellDef="let product">
+              <!--<mat-chip-list matPrefix name="prices">
+                <mat-chip color="accent"  class="mat-accent-500-bg" *ngFor="let price of product.prices" removable="false">
+                  {{price.price}}
+                </mat-chip>
+              </mat-chip-list>!-->
+            <p class="text-truncate">{{product.property.carSpaces}}</p>
+            </mat-cell>
+          </ng-container>
+
+
+        <!-- Quantity Column -->
+        <ng-container cdkColumnDef="quantity">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Quantity</mat-header-cell>
+          <mat-cell *cdkCellDef="let product" fxHide fxShow.gt-sm>
+            <!--<span class="quantity-indicator text-truncate" [ngClass]="{'mat-red-500-bg':product.quantity <= 5, 'mat-amber-500-bg':product.quantity > 5 && product.quantity <= 25,'mat-green-600-bg':product.quantity > 25}">
+            </span>!-->
+            <!--<span>
+              {{product.quantity}}
+            </span>!-->
+            <p class="text-truncate">{{product.property.landSqMeter}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Active Column -->
+        <ng-container cdkColumnDef="options">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>
+            <mat-icon class="mat-18">equalizer</mat-icon>
+          </mat-header-cell>
+          <mat-cell *cdkCellDef="let product" fxHide fxShow.gt-xs>
+            <!--changed for property-->
+            <mat-icon [routerLink]="'/property/'+product.id+'/'+true" matTooltip="Edit Product"  class="accent-500-fg">edit</mat-icon>
+            <mat-icon (click)="deleteProduct(product)" matTooltip="Delete Product"  class="warn-500-fg">delete</mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *cdkRowDef="let product; columns: displayedColumns;" class="product" matRipple >
+        </mat-row>
+
+      </mat-table>
+
+      <mat-paginator [length]="productsLength" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10">
+      </mat-paginator>
+
+    </div>
+
+
+    <!-- / CONTENT CARD -->
+  </div>
+  <!-- / CENTER -->
+</div>

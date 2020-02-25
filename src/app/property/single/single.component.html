@@ -1,0 +1,102 @@
+<div id="product" class="page-layout carded fullwidth" fusePerfectScrollbar *blockUI=" 'productCreate' ">
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <!-- CENTER -->
+  <div class="center">
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/property/list'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class=" product-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <img *ngIf="product.attachments[0]" [src]="ImageUrl+product.attachments[0].url">
+          <img *ngIf="!product.attachments[0]" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+        </div>
+
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{product.name}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New Property
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Property Detail</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+
+      <button mat-raised-button class="save-product-button mat-white-bg mt-16 mt-sm-0" [disabled]="productForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addProduct()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="save-product-button mat-white-bg mt-16 mt-sm-0" [disabled]="productForm.invalid" *ngIf="pageType ==='edit'"
+        (click)="saveProduct()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <form name="productForm" [formGroup]="productForm" class="product w-100-p" fxLayout="column" fxFlex>
+
+          <mat-tab-group>
+
+            <!--<mat-tab label="Product">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <app-main-product-tab [product]="product" (formReady)="formInitialized('mainProduct', $event)"></app-main-product-tab>
+              </div>
+            </mat-tab>!-->
+            <mat-tab label="Property">
+
+              <div class="tab-content p-24" fusePerfectScrollbar>
+
+                <app-main-property-tab [product]="product" (formReady)="formInitialized('productProperty',$event)"  [projectsListDrp]="projectsListDrp$" ></app-main-property-tab>
+
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Images">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+
+                <app-property-images-tab [product]="product" (formReady)="formInitialized('productImages',$event)"></app-property-images-tab>
+
+              </div>
+
+            </mat-tab>
+
+            <mat-tab label="Prices">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+
+                <app-property-prices-tab [product]="product" (formReady)="formInitialized('productPrices',$event)"></app-property-prices-tab>
+
+              </div>
+
+            </mat-tab>
+          </mat-tab-group>
+
+        </form>
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

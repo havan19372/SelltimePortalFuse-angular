@@ -1,0 +1,95 @@
+<div id="products" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <div class="top-bg mat-accent-bg"></div>
+  <div class="center">
+      <div class="header white-fg" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+          <!-- APP TITLE -->
+          <div class="logo my-12 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">shopping_cart</mat-icon>
+            <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Orders</span>
+          </div>
+          <!-- / APP TITLE -->
+    
+          <!-- SEARCH -->
+          <div class="search-input-wrapper mx-12 m-md-0" fxFlex="1 0 auto" fxLayout="row wrap" fxLayoutAlign="start center">
+            <label for="search" class="mr-8">
+              <mat-icon class="secondary-text">search</mat-icon>
+            </label>
+            <mat-form-field floatPlaceholder="never" fxFlex="1 0 auto">
+              <input id="search" matInput #filter placeholder="Search">
+            </mat-form-field>
+          </div>
+    
+        </div>
+        <div class="content-card mat-white-bg">
+               <div [hidden]="!isLoadingResults">
+                  <mat-progress-bar mode="query"  color="accent"></mat-progress-bar>
+              </div>
+            <mat-table class="shoppingCard-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+            
+              <ng-container cdkColumnDef="id">
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>#</mat-header-cell>
+                <mat-cell *cdkCellDef="let Project">
+                  <p>000{{Project.id }}</p>
+                </mat-cell>
+              </ng-container>
+
+              <!-- cardNumber Column -->
+              <ng-container cdkColumnDef="cardNumber">
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>cardNumber</mat-header-cell>
+                <mat-cell *cdkCellDef="let Project">
+                  <p class="text-truncate">{{Project.cardNumber}}</p>
+                </mat-cell>
+              </ng-container>
+            
+              <!-- cardNumber Column -->
+              <ng-container cdkColumnDef="fromDate">
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>From Date</mat-header-cell>
+                <mat-cell *cdkCellDef="let Project">
+                  <p>{{Project.fromDate | date : 'dd MMM y' }}</p>
+                </mat-cell>
+              </ng-container>
+             
+              <ng-container cdkColumnDef="toDate">
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>Due Date</mat-header-cell>
+                <mat-cell *cdkCellDef="let Project">
+                  <p>{{Project.toDate | date : 'dd MMM y' }}</p>
+                </mat-cell>
+              </ng-container>
+              <ng-container cdkColumnDef="paymentTotal">
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>payment Total</mat-header-cell>
+                <mat-cell *cdkCellDef="let Project">
+                  <p class="text-truncate">{{Project.paymentTotal | currency }}</p>
+                </mat-cell>
+              </ng-container>
+              <ng-container cdkColumnDef="options" >
+                  <mat-header-cell  *cdkHeaderCellDef  fxHide fxShow.gt-xs>
+                    <mat-icon class="mat-18">equalizer</mat-icon>
+                  </mat-header-cell>
+                  <mat-cell *cdkCellDef="let shopCarte" fxHide fxShow.gt-xs>
+                      <button mat-icon-button color="orange">
+                          <mat-icon   matTooltip="Show Details" [routerLink]="'/shoppingCarte/detail/'+shopCarte.id"  >assignment</mat-icon>
+                        </button>
+                    <!-- <button mat-icon-button color="warn">
+                      <mat-icon   matTooltip="Show Address" (click)="showShopCarteAddress(shopCarte.address)" c >place</mat-icon>
+                    </button>
+                    <button mat-icon-button   color="accent">
+                        <mat-icon   matTooltip="Show Contact" (click)="showShopCarteContact(shopCarte.contact)" >contact_phone</mat-icon>
+                      </button> -->
+                  </mat-cell>
+                </ng-container> 
+              <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+         
+              <mat-row *cdkRowDef="let shopCarte; columns: displayedColumns;" class="product" matRipple>
+              </mat-row>
+            
+            </mat-table>
+        
+ 
+            <mat-paginator [length]="shopCartsLength" [pageSizeOptions]="[50, 100, 150, 200]" [pageSize]="50">
+            </mat-paginator>
+ 
+          </div>
+    </div>
+  </div>

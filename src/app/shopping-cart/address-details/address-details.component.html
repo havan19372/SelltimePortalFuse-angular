@@ -1,0 +1,23 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+      <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <span class="title dialog-title">{{dialogTitle}}</span>
+        <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+   
+  
+    </div>
+  
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <button  mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="close"
+        matTooltip="Delete">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  

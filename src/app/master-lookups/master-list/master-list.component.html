@@ -1,0 +1,125 @@
+<div id="products" class="page-layout carded fullwidth" fusePerfectScrollbar >
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+      <!-- APP TITLE -->
+      <div class="logo my-12 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">looks</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Master Lookup</span>
+      </div>
+      <!-- / APP TITLE -->
+
+      <!-- SEARCH -->
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+        <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row wrap" fxLayoutAlign="start center">
+          <label for="search" class="mr-8">
+            <mat-icon>search</mat-icon>
+          </label>
+          <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+            <input matInput [formControl]="searchInput" id="search" placeholder="Search for anything">
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+
+          <mat-button-toggle-group #group="matButtonToggleGroup">
+
+            <mat-button-toggle class="mat-white-bg mat-accent-500-fg"  value="all" matTooltip="All Lookup">
+              All Lookup
+            </mat-button-toggle>
+              <mat-button-toggle class="mat-white-bg mat-accent-500-fg" value="master" matTooltip="Master Lookup">
+                Master Lookup
+              </mat-button-toggle>
+              <mat-button-toggle class="mat-white-bg mat-accent-500-fg" value="member" matTooltip="Members Lookup">
+                Members Lookup
+              </mat-button-toggle>
+
+            </mat-button-toggle-group>
+
+        </div>
+
+      </div>
+      <!-- / SEARCH -->
+
+      <button mat-raised-button (click)="addMasterLookup()" class="add-product-button text-uppercase mat-white-bg my-12 mt-sm-0">
+        <span>Add Master Lookup</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg" *blockUI=" 'masterListBlock' ">
+
+      <div class="example-loading-shade " *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+
+      <mat-table class="products-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+
+        <!-- ID Column -->
+        <ng-container cdkColumnDef="id">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>ID</mat-header-cell>
+          <mat-cell *cdkCellDef="let master">
+            <p class="text-truncate">{{master.id}}</p>
+          </mat-cell>
+        </ng-container>
+
+
+
+        <!-- Name Column -->
+        <ng-container cdkColumnDef="text">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Name</mat-header-cell>
+          <mat-cell *cdkCellDef="let master">
+            <p class="text-truncate">{{master.text}}</p>
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container cdkColumnDef="detailsCount">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Details</mat-header-cell>
+          <mat-cell *cdkCellDef="let master">
+            <mat-icon [routerLink]="'/master-lookups/detailList/'+master.code +'/'+ master.text" matTooltip="Show Details" class="accent-500-fg">add_to_queue</mat-icon>
+          </mat-cell>
+        </ng-container>
+
+
+
+
+        <!-- Active Column -->
+        <ng-container cdkColumnDef="options">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>
+            <mat-icon class="mat-18">equalizer</mat-icon>
+          </mat-header-cell>
+          <mat-cell *cdkCellDef="let master" fxHide fxShow.gt-xs>
+            <mat-icon (click)="addMasterLookup(master)" matTooltip="Edit Master Lookup"  class="accent-500-fg">edit</mat-icon>
+            <mat-icon (click)="onDeleteClick(master)" matTooltip="Delete Master Lookup" class="warn-500-fg">delete</mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *cdkRowDef="let master; columns: displayedColumns;" class="product" matRipple>
+        </mat-row>
+
+      </mat-table>
+
+      <!-- <mat-paginator [length]="productsLength" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10">
+      </mat-paginator> -->
+
+    </div>
+
+
+    <!-- / CONTENT CARD -->
+  </div>
+  <!-- / CENTER -->
+</div>

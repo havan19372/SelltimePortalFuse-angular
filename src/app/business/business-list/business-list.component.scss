@@ -1,0 +1,14 @@
+#add-contact-button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 0;
+  z-index: 99;
+}
+
+@import "src/@fuse/scss/fuse";
+.mat-button-toggle-checked {
+  background-color: #333 !important;
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+

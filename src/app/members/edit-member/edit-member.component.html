@@ -1,0 +1,96 @@
+<div id="memberCreate" class="page-layout carded fullwidth">
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="['/members/list']">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="member-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <!-- <img *ngIf="member.logoId" [src]="imageUrl+member.logoId"> -->
+          <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+
+          <div class="h2">
+            Edit Member
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Member Detail</span>
+          </div>
+        </div>
+
+      </div>
+
+      <button mat-raised-button class=" mat-white-bg mt-16 mt-sm-0" (click)="onSubmitForm()">
+        <span>Update</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+        <!-- CONTENT -->
+        <div class="content">
+          <form name="memberForm" [formGroup]="memberForm" (ngSubmit)="onSubmitForm()">
+            <mat-tab-group>
+              <mat-tab label="Member Info">
+                <div class="tab-content p-24" fusePerfectScrollbar>
+
+                  <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+
+                    <mat-form-field fxFlex="50%" class="w-100-p">
+                      <input matInput name="name" formControlName="name" placeholder="Name *">
+                      <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
+                        <span *ngIf="name.hasError('required')" class="help-block text-danger">Name is required</span>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50%" class="w-100-p">
+                      <input matInput name="code" formControlName="code" placeholder="Code">
+                      <!-- <mat-error *ngIf="code.invalid && (code.dirty || code.touched)">
+                        <span *ngIf="code.hasError('required')" class="help-block text-danger">Code is required</span>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50%" class="w-100-p">
+                      <input matInput name="host" formControlName="host" placeholder="Host *">
+                      <mat-error *ngIf="host.invalid && (host.dirty || host.touched)">
+                        <span *ngIf="host.hasError('required')" class="help-block text-danger">Host is required</span>
+                      </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="50%" class="w-100-p">
+                      <input matInput name="sponsorCode" formControlName="sponsorCode" placeholder="Sponsor Code *">
+                      <!-- <mat-error *ngIf="sponsorCode.invalid && (sponsorCode.dirty || sponsorCode.touched)">
+                        <span *ngIf="sponsorCode.hasError('required')" class="help-block text-danger">Sponsor Code is required</span>
+                      </mat-error> -->
+                    </mat-form-field>
+
+                  </div>
+                </div>
+
+              </mat-tab>
+            </mat-tab-group>
+          </form>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

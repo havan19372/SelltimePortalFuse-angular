@@ -1,0 +1,45 @@
+<div fxLayout="row wrap" fxLayoutAlign="start center">
+
+  <mat-checkbox [(ngModel)]="selected" (ngModelChange)="onSelectedChange(message)"
+    (click)="$event.stopPropagation();"></mat-checkbox>
+
+  <div class="info" fxFlex FlexLayout="column">
+
+    <div class="row-1" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <div class="name" fxLayout="row wrap" fxLayoutAlign="start center" fxFlex>
+        <img class="avatar" alt="{{message?.creator}}" src="assets/images/avatars/profile.jpg" />
+
+        <span class="text-truncate" *ngIf="message?.creator">{{message?.creator}}</span>
+        <mat-icon *ngIf="message.attachmentCount">attachment</mat-icon>
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <div class="time">{{message.createDate | date : 'dd MMM' }}</div>
+
+      </div>
+
+    </div>
+
+    <div class="row-2" fxLayout="row wrap" fxLayoutAlign="start center">
+
+      <div fxLayout="column" fxLayoutAlign="start start">
+
+
+          <div class="subject text-truncate">
+
+          </div>
+
+        <div class="message text-truncate" *ngIf="message?.detail">
+          {{message.detail | htmlToPlaintext | slice:0:180}}{{message.detail.length > 180 ? '...' : ''}}
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,34 @@
+<div class="Businesses" fxLayout="row wrap" fxLayoutAlign="start start" fxFlexFill fxFill>
+  <div class="Business" *ngFor="let Business of filteredBusinesses" fxFlex.xs="100" fxFlex.gt-xs="33%" [ngClass]="Business.industry">
+    <div class="Business-content" fxLayout="column">
+      <div class="header web-bg" fxLayout="row wrap" fxLayoutAlign="space-between">
+        <div class="p-10" fxLayout="row wrap" fxLayoutAlign="start center">
+          <img class="w-70  border-radius-100" [src]="imageUrl+Business.logo" *ngIf="Business.logo">
+          <img class="w-70  border-radius-100" *ngIf="!Business.logo" src="assets/images/ecommerce/product-image-placeholder.png">
+          <div class="ml-16">
+            <div class="text-bold">{{Business.name}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+        <div class="h1">{{Business.address}}</div>
+        <div class="length" fxLayout="row wrap" fxLayoutAlign="center center">
+          <mat-icon color="accent" class="length-icon secondary-text mat- s-20">account_circle</mat-icon>
+          <div class="min">{{Business.contact}} </div>
+        </div>
+      </div>
+      <div class="footer" fxLayout="row wrap" fxLayoutAlign="center center">
+        <button mat-button color="accent" (click)="newBusiness(Business.id)">
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="no-Businesses" *ngIf="filteredBusinesses.length === 0">
+    No Businesses found!
+  </div>
+</div>
+<!-- <mat-paginator #paginator *ngIf="filteredBusinesses.length" (page)="getPageForView($event)" [length]="paging.length" [pageIndex]="paging.pageIndex"
+[pageSize]="paging.pageSize" [pageSizeOptions]="[5, 10, 20, 50]">
+</mat-paginator> -->
+

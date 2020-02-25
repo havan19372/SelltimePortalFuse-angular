@@ -1,0 +1,31 @@
+<div class="product w-100-p">
+  <div fxLayout="row wrap" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+    <ng-container *ngFor="let type of dataSource" >
+      <mat-form-field fxFlex class="w-100-p " *ngIf="type.typeText==='Text'" fxFlex="0 1 calc(49.3% - 32px)">
+        <input matInput name="type.featureName" [value]="type.value"  [placeholder]="type.key"
+          type="text" (keyup)='onSavedCheckBox(type,$event.target.value)'>
+      </mat-form-field>
+
+
+      <mat-form-field fxFlex class="w-100-p " *ngIf="type.typeText==='Date'" fxFlex="0 1 calc(24.3% - 32px)">
+        <input matInput (dateChange)='onSavedCheckBox(type,$event.target.value)' [matDatepicker]="picker" [placeholder]="type.key"
+          [value]="type.value">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field fxFlex class="w-100-p " *ngIf="type.typeText==='Number'" fxFlex="0 1 calc(24.3% - 32px)">
+        <input matInput type="number" name="type.featureName" [value]="type.value" 
+          [placeholder]="type.key" type="number" (keyup)='onSavedCheckBox(type,$event.target.value)'>
+      </mat-form-field>
+
+        <mat-slide-toggle  class="p-8 mb-16" [checked]="type.value=='true'" [id]="type.id" fxFlex="0 1 calc(24.3% - 32px)"
+        (change)="onSavedCheckBox(type,$event.checked)" style="margin-top:25px" *ngIf="type.typeText==='CheckBox'">{{type.key}}
+      </mat-slide-toggle>
+
+ 
+    
+    </ng-container>
+  </div>
+  <br>
+</div>

@@ -1,0 +1,147 @@
+<div id="websites" class="page-layout carded left-sidenav" fusePerfectScrollbar *blockUI="'galleryListBlock'">
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+  <mat-sidenav-container>
+
+    <!-- SIDENAV -->
+    <mat-sidenav class="sidenav" align="start" mode="side" opened="true" fuseMatSidenavHelper="carded-left-sidenav" mat-is-locked-open="gt-md">
+      <app-gallery-sidenav (gallerySelectEvent)="gallerySelectEvent($event)" [deleted]="deleted" [updated]="updated"></app-gallery-sidenav>
+    </mat-sidenav>
+    <!-- / SIDENAV -->
+
+    <!-- CENTER -->
+    <div class="center">
+      <!-- CONTENT HEADER -->
+      <div class="header" fxLayout="row wrap" fxLayoutAlign="start center">
+        <button mat-button class="mat-icon-button sidenav-toggle" fuseMatSidenavToggler="carded-left-sidenav" fxHide.gt-md aria-label="Toggle Sidenav">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center" fxHide.gt-md>
+          <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Gallery</span>
+        </div>
+      </div>
+      <!-- / CONTENT HEADER -->
+
+      <!-- CONTENT CARD -->
+      <div class="content-card mat-white-bg" [ngClass]="{'current-mail-selected':currentMail}">
+        <!-- CONTENT TOOLBAR -->
+        <div class="toolbar px-24 py-8" *ngIf="selectedGallery">
+          <div fxFlex="row" fxLayoutAlign="start center">
+            <button mat-button color="primary" matTooltip="Edit Gallery" (click)="editGallery()">
+              <mat-icon>edit</mat-icon>
+              <span>Edit Gallery</span>
+            </button>
+          </div>
+          <div fxFlex="row" fxLayoutAlign="end center">
+            <button mat-button color="primary" matTooltip="Delete Gallery" (click)="deleteGallery()">
+              <mat-icon>delete</mat-icon>
+              <span>Delete Gallery</span>
+            </button>
+          </div>
+        </div>
+        <!-- / CONTENT TOOLBAR -->
+<!--copyText(imageUrl,file.url)-->
+                  <!--src="img_lights.jpg"-->
+        <!-- CONTENT -->
+        <div class="content1 ">
+            <!--  -->
+              <mat-grid-list cols="2" rowHeight="2:1" fusePerfectScrollbar>
+                  
+                <mat-grid-tile *ngFor="let file of imageMedias"> 
+                   <img class="myImg" src="{{imageUrl + file.url}}"  title="{{imageUrl + file.url}}" (click)="openGallery(file)">
+                    <br>
+                      <button mat-icon-button  (click)="deleteMedia(selectedGallery.id, file.id)" aria-label="Delete" matTooltip="Delete Image">
+                        <mat-icon color="primary">delete</mat-icon>
+                      </button>
+                  </mat-grid-tile>
+                  <mat-grid-tile *ngFor="let pdf of pdfFiles"> 
+                    <a href="{{imageUrl + pdf.url}}"  target="_blank">
+                        <img border="0"  src="http://wwwimages.adobe.com/content/dam/acom/en/legal/images/badges/Adobe_PDF_file_icon_32x32.png" 
+                        title=""
+                        width="90px" height="90px">
+                        <p>{{pdf.sourceFileName}}</p>
+                    </a>
+                    <br>
+                        <button mat-icon-button  (click)="deleteMedia(selectedGallery.id, pdf.id)" aria-label="Delete" matTooltip="Delete Image">
+                         <mat-icon color="primary">delete</mat-icon>
+                       </button>
+                   </mat-grid-tile>
+                  
+                   <!--
+                  <mat-grid-tile *ngFor="let pdf of pdfFiles"> 
+                    <a href="{{imageUrl + pdf.url}}"  target="_blank">
+                        <img border="0"  src="http://wwwimages.adobe.com/content/dam/acom/en/legal/images/badges/Adobe_PDF_file_icon_32x32.png" 
+                        title=""
+                        width="90px" height="90px">
+                        <p>{{pdf.sourceFileName}}</p>
+                    </a>
+                    <br>
+                     
+                        <button mat-icon-button  (click)="deleteMedia(selectedGallery.id, pdf.id)" aria-label="Delete" matTooltip="Delete Image">
+                         <mat-icon color="primary">delete</mat-icon>
+                       </button>
+                   </mat-grid-tile>
+                  -->
+
+                   
+                  <mat-grid-tile *ngFor="let vedio of videoMedias"> 
+                      <a href="{{imageUrl + vedio.url}}"  target="_blank">
+                          <i class="fa fa-play fa-lg" aria-hidden="true" ></i>
+                          <p>{{vedio.sourceFileName}}</p>
+                      </a>
+                      <br>
+                      
+                        <button mat-icon-button  (click)="deleteMedia(selectedGallery.id, vedio.id)" aria-label="Delete" matTooltip="Delete Image">
+                           <mat-icon color="primary">delete</mat-icon>
+                         </button>
+                   </mat-grid-tile>
+                 
+
+                </mat-grid-list>
+          <!-- 
+            <img border="0"  src="assets/images/beach.jpg" 
+                          title=""
+                          width="90px" height="90px">
+            
+            <ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true"  *ngIf="medias && medias.length > 0">
+            <div fxLayout="row wrap" fxLayoutAlign="space-around center" >
+
+            <ngxMasonryItem *ngFor="let file of medias" class="p-12">
+
+                <div class="fuse-card" >
+                    <img class="myImg" src="img_lights.jpg" src="{{imageUrl + file.url}}">
+                    <div class="px-16 py-4" fxLayout="row wrap" fxLayoutAlign="center center">
+                      <button mat-icon-button color="danger" (click)="deleteMedia(selectedGallery.id, file.id)" aria-label="Delete" matTooltip="Delete Image">
+                        <mat-icon color="primary">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+
+              </ngxMasonryItem>
+
+            </div>
+          </ngx-masonry> -->
+
+
+ <div *ngIf=" videoMedias && videoMedias && pdfFiles && pdfFiles.length && medias && medias.length == 0" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutWrap class="w-100-p">
+            <p class="text-center">
+              This gallery have no content, add new content now.
+            </p>
+</div>
+
+         
+        </div>
+        <!-- / CONTENT -->
+      </div>
+      <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+
+  </mat-sidenav-container>
+</div>
+<input hidden type="file" (change)="onChange($event)" multiple #fileInput/>
+<button mat-fab class="mat-accent-bg" id="add-File-button" matTooltip="New Image" (click)="fileInput.click()" aria-label="add Image"
+  *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+  <mat-icon>add</mat-icon>
+</button>

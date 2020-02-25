@@ -1,0 +1,26 @@
+<!-- SIDENAV HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start" class="header p-24 pb-4" ngClass="mat-accent-bg" ngClass.gt-md="white-fg">
+  <div class="logo" fxFlex fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">slideshow</mat-icon>
+    <span class="logo-text text-uppercase" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Gallery</span>
+  </div>
+  <div *ngIf="selectedGallery">{{selectedGallery.name}}</div>
+</div>
+<!-- / SIDENAV HEADER -->
+<!-- SIDENAV CONTENT -->
+<div class="content" fusePerfectScrollbar *fuseIfOnDom [@animate]="{value:'*', params:{y:'50px'}}">
+  <div class="p-24">
+    <button mat-raised-button fxFlex class="mat-accent compose-dialog-button" (click)="newGallery()" aria-label="NewGallery">New Gallery</button>
+  </div>
+
+  <div class="nav">
+    <div class="nav-subheader text-uppercase ">Galleries</div>
+    <div class="nav-item" *ngFor="let gallery of galleries">
+      <a class="nav-link" matRipple (click)="getImages(gallery)" [class.active]="gallery.id === selectedGallery?.id">
+        <mat-icon class="nav-link-icon">label</mat-icon>
+        <span>{{gallery.name}}</span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- / SIDENAV CONTENT -->

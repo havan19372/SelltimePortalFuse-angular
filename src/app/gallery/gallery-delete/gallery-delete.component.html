@@ -1,0 +1,17 @@
+<div class="dialog-content-wrapper">
+	<mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+	    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+	    	<span class="title dialog-title">{{title}}</span>
+	    	<button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+	    		<mat-icon>close</mat-icon>
+	    	</button>
+	    </mat-toolbar-row>
+	</mat-toolbar>
+
+  	<p>Are you sure want to delete {{data.gallery.name}} gallery?</p>
+  	
+	<div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+	  <button md-button (click)="dialogRef.close()">Cancel</button>
+	  <button md-button (click)="delete()" color="primary">Delete</button>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+<div *ngIf="projectMessages.length === 0" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+    <span class="no-messages-text hint-text text-uppercase text-center">Select A Project to view Messages </span>
+</div>
+
+<div class="mail-list" *fuseIfOnDom [@animateStagger]="{value:'50'}">
+
+  <app-message-list-item matRipple *ngFor="let message of projectMessages" [message]="message" (click)="readMessage(message)"
+                         [ngClass]="{'current-mail':message?.id == openedMessage?.id}"
+                         [@animate]="{value:'*',params:{y:'100%'}}">
+    </app-message-list-item>
+
+</div>

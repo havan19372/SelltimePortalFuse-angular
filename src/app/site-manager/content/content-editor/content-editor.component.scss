@@ -1,0 +1,12 @@
+#gjs {
+  border: 3px solid #444;
+  height: 100% !important;
+}
+
+/* Reset some default styling */
+
+:host ::ng-deep .gjs-cv-canvas {
+  height: calc(100%) !important;
+  top: 0 !important;
+  width: 100%;
+}

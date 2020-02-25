@@ -1,0 +1,40 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{dialogTitle}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+    <table class="simple clickable" *ngIf="contents.length">
+      <thead>
+        <tr>
+          <th color="accent">System Name</th>
+          <!-- <th color="accent">Slug</th> -->
+          <th class="text-center">
+            <mat-icon color="primary" class="mat-18">settings</mat-icon>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let content of contents">
+          <td>{{content.name}}</td>
+          <!-- <td>{{content.slug}}</td> -->
+          <td class="text-center">
+            <button mat-icon-button matTooltip="Edit Content" (click)="editContent(content.id)">
+              <mat-icon color="accent" aria-label="Edit Content">edit</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Delete Content" (click)="deleteContent(content.id)">
+              <mat-icon color="warn" aria-label="Delete Content">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+</div>

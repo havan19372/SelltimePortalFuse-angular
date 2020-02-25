@@ -1,0 +1,306 @@
+<div id="task" class="page-layout carded fullwidth" fusePerfectScrollbar *blockUI=" 'productCreate' ">
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center mt-16">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row wrap" fxLayoutAlign="space-between center">
+
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/projects/tasks'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class=" product-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <img [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="isNew == false">
+            {{task.name}}
+          </div>
+          <div class="h2" *ngIf="isNew == true">
+            New Task
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Task Detail</span>
+            <span>{{task.projectName }}</span>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button class="save-product-button mat-white-bg mt-16 mt-sm-0" (click)="saveTask()">
+        <span *ngIf="isNew ==true ">ADD</span>
+        <span *ngIf="isNew == false">SAVE</span>
+      </button>
+    </div>
+
+    <div class="content-card mat-white-bg" *blockUI=" 'tasksDetails' ">
+
+      <mat-tab-group>
+
+        <mat-tab label="Task">
+
+          <div class="tab-content p-24" fusePerfectScrollbar>
+            <div class="section" fxLayout="row">
+
+
+              <!-- CONTENT -->
+              <form [formGroup]="taskForm" class="product w-100-p" fxLayout="column" fxFlex>
+                <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+                  <mat-form-field fxFlex="100%" class="w-100-p">
+                    <input matInput name="name" placeholder="Task Title" formControlName="name">
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutWrap>
+                  <mat-form-field fxFlex="33%" class="w-100-p">
+                    <input matInput name="refNum" placeholder="Ref #" formControlName="refNum">
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33%" class="w-100-p">
+                    <mat-select placeholder="Project " formControlName="projectId">
+                      <mat-option *ngFor="let project of projectList" [value]="project.value">
+                        {{project.text}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33%" class="w-100-p">
+                    <mat-select placeholder="Sub Project " formControlName="projectSubId">
+                      <mat-option *ngFor="let project of subProjectList" [value]="project.projectId">
+                        {{project.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+
+                  <mat-form-field fxFlex="33%">
+                    <input matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="33%">
+                    <input matInput [matDatepicker]="completeDate" placeholder="Complete Date" formControlName="completeDate">
+                    <mat-datepicker-toggle matSuffix [for]="completeDate"></mat-datepicker-toggle>
+                    <mat-datepicker #completeDate></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="33%">
+                    <input matInput type="text" placeholder="Hours" formControlName="estimateHour">
+                  </mat-form-field>
+
+                  <!--
+            <mat-form-field fxFlex="33%">
+              <mat-select placeholder="Trusted Level" formControlName="trustLevelId" name="trustLevelId">
+                <mat-option *ngFor="let trust of trustLevels" [value]="trust.value">
+                  {{trust.text}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="BusinessForm.get('titleId').hasError('required')">
+                Trusted Level is required!
+              </mat-error>
+            </mat-form-field> -->
+
+                  <!--
+          <mat-form-field fxFlex="33%">
+            <mat-select placeholder="Trusted Level" formControlName="trustLevelId" name="trustLevelId">
+              <mat-option *ngFor="let trust of trustLevels" [value]="trust.value">
+                {{trust.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="BusinessForm.get('titleId').hasError('required')">
+              Trusted Level is required!
+            </mat-error>
+          </mat-form-field> -->
+
+                </div>
+                <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+                  <mat-form-field fxFlex="100%" class="w-100-p">
+                    <textarea matInput name="description" placeholder="Description..." rows="3" formControlName="detail">
+                    </textarea>
+                  </mat-form-field>
+                </div>
+              </form>
+
+            </div>
+            <div class="row">
+
+              <div class="section" fxFlex="50%">
+
+                <div class="comments">
+
+                  <div class="section-header" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-20">comment</mat-icon>
+                    <span class="section-title">
+                      <h2>Comments
+                        <span class="count"> {{comments? comments.length:0}} </span>
+
+                      </h2>
+
+                    </span>
+                  </div>
+
+                  <div class="section-content">
+
+
+                    <div fxLayout="row">
+                      <mat-form-field class="w-100-p">
+                        <input xFlex="90%" matInput [(ngModel)]="commentText" placeholder="Write a comment..">
+                      </mat-form-field>
+
+                      <div xFlex="10%">
+
+                        <button mat-icon-button class="mat-accent" matTooltip="Add Comment" (click)="addNewComment()" fxLayout="row">
+                          <mat-icon>add_comment</mat-icon>
+                        </button>
+                        <input hidden type="file" (change)="onChange($event,1)" multiple #fileCoomentInput/>
+                        <button mat-icon-button (click)="fileCoomentInput.click()" matTooltip="Add file" fxLayout="row">
+                          <mat-icon>format_align_center</mat-icon>
+                        </button>
+                      </div>
+
+                    </div>
+                    <mat-progress-bar mode="buffer" *ngIf="isLoadingAttahment==true"></mat-progress-bar>
+
+                    <div *ngIf="newComment.attachments " class="mail-attachments">
+
+                      <div class="title">
+                        <span>Attachments</span>
+                        ({{newComment.attachments.length}})
+                      </div>
+
+                      <div class="attachment-list" fxLayout="row wrap">
+
+                        <div class="attachment" fxLayout="column" *ngFor="let attachment of newComment.attachments">
+
+                          <img class="preview" src="{{imageUrl+attachment.url}}">
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment" fxLayout="row" *ngFor="let comment of comments| reverse;">
+
+                      <div fxLayout="column" class="comment-bubble">
+                        <div class="comment-member-name">
+                          {{comment.creator}}
+                        </div>
+                        <div>
+                          {{comment.comment}}
+                        </div>
+                        <div *ngIf="comment.attachments" class="mail-attachments">
+
+                          <div class="title">
+                            <span>Attachments</span>
+                            ({{comment.attachments.length}})
+                          </div>
+
+                          <div class="attachment-list" fxLayout="row wrap">
+
+                            <div class="attachment" fxLayout="column" *ngFor="let attachment of comment.attachments">
+
+                              <img class="preview" src="{{imageUrl+attachment.url}}">
+
+                              <div fxLayout="column">
+                                <a href="{{imageUrl+attachment.url}}" target="_blank">View</a>
+                                <a href="{{imageUrl+attachment.url}}" download="">Download</a>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="comment-time secondary-text">
+                          {{comment.createDate | timeAgo}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="section" fxFlex="50%">
+
+                <div class="comments">
+
+                  <div class="section-header" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="s-20">comment</mat-icon>
+                    <h2>Status
+                      <span class="count"> {{statuses? statuses.length:0}} </span>
+
+                    </h2>
+                  </div>
+
+                  <div class="section-content">
+                    <div class="comment new-comment" fxLayout="column" fxLayoutAlign="start">
+                      <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+
+
+                        <div fxFlex="90%">
+                          <mat-select placeholder="Status " [(ngModel)]="selectedStatus">
+                            <mat-option *ngFor="let status of taskStatus" [value]="status.value">
+                              {{status.text}}
+                            </mat-option>
+                          </mat-select>
+                        </div>
+                        <div fxFlex="10%">
+                          <button mat-button class="mat-accent" aria-label="update status" (click)="updateStatus()">
+                            <span>update</span>
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="comment" *ngFor="let status of task.statuses| reverse;">
+                      <div class="comment-bubble">
+
+                        <div fxLayout="column">
+                          <div class="comment-member-name">
+
+                            {{status.statusText}}
+                          </div>
+
+                          <div class="comment-time secondary-text">
+                            {{status.createDate | timeAgo}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Attachments">
+          <div class="tab-content p-24" fusePerfectScrollbar>
+            <div class="file-uploader" fxLayout="row wrap" fxLayoutAlign="center center">
+              <input hidden type="file" (change)="onChange($event,0)" multiple #fileInput/>
+
+              <button mat-icon-button class="add-file-button mat-raised-button" (click)="fileInput.click()" matTooltip="Add file">
+                <mat-icon color="warn">add</mat-icon>
+              </button>
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+              <div fxFlex="25%" *ngFor="let attach of attachments| reverse;">
+                <img class="p-4" [src]="imageUrl+attach.url" alt=" " />
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Time Sheet" (click)="LoadTikemSheet()">
+          <div class="tab-content p-24" fusePerfectScrollbar>
+          </div>
+          <app-timesheets></app-timesheets>
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </div>
+
+
+  </div>

@@ -1,0 +1,33 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class=" m-0 mat-accent-bg">
+    <mat-toolbar-row fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{title}}</span>
+      <button mat-button class="mat-icon-button" (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+    <form [formGroup]="galleryForm">
+      <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+
+         <!--  <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <mat-form-field fxFlex>
+              <mat-select formControlName="store" placeholder="Store Name" required>
+                <mat-option *ngFor="let store of stores" [value]="store.name">{{ store.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
+          <div fxLayout="row wrap" fxLayoutAlign="start start">
+            <mat-form-field fxFlex>
+              <input name="name" formControlName="name" placeholder="Gallery Name" matInput required/>
+            </mat-form-field>
+          </div>
+      </div>
+
+      <div mat-dialog-actions class="m-0 p-16" fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <button mat-raised-button  (click)="save()" class="save-button mat-accent" aria-label="SAVE">SAVE</button>
+      </div>
+    </form>
+</div>

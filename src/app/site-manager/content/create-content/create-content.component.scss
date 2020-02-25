@@ -1,0 +1,44 @@
+
+#contentCreate {
+  #wrapper {
+    min-height: 100%; 
+}
+  .header {
+    .subtitle {
+      margin: 6px 0 0 0;
+    }
+  }
+  .content {
+    form {
+      width: 100%;
+      padding: 20px;
+    }
+    .form-errors-model {
+      flex: 1;
+      code {
+        background: none !important;
+      }
+    }
+    .img-logo {
+      max-width: 250px;
+      max-height: 250px;
+    }
+    .img-card {
+      max-width: 250px;
+      max-height: 250px;
+    }
+    .editor-container {
+      height: 500px;
+      width: 100%;
+      .editor-parent {
+        height: 230px;
+        width: 100%;
+        /* Let's highlight canvas boundaries */
+      
+        .editor {
+          height: 220px;
+        }
+      }
+    }
+  }
+}
